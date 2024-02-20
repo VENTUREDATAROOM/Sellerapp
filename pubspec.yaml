@@ -1,0 +1,89 @@
+name: fresh_mandi
+description: A new Flutter project.
+version: 1.0.0+1
+environment: 
+  sdk: '>=2.17.0 <4.0.0'
+dependencies: 
+  flutter: 
+    sdk: flutter
+  get: ^4.6.6
+  connectivity_plus: ^5.0.2
+  shared_preferences: ^2.2.2
+  cached_network_image: ^3.3.0
+  flutter_svg: ^2.0.9
+  pin_code_fields: ^8.0.1
+  sms_autofill: ^2.3.0
+  another_stepper: ^1.2.2
+  flutter_svg_provider: ^1.0.7
+  calendar_date_picker2: ^0.5.3
+  intl: any
+  flutter_localizations:
+    sdk: flutter
+  fluttertoast: ^8.2.4
+  draw_graph: ^1.0.0
+  one_context: ^2.1.0
+dev_dependencies: 
+  flutter_test: 
+    sdk: flutter
+flutter: 
+  uses-material-design: true
+  assets: 
+    - assets/
+    - assets/images/
+  fonts: 
+    - family: Raleway
+      fonts: 
+        - asset: assets/fonts/RalewayBold.ttf
+          weight: 700
+        - asset: assets/fonts/RalewayMedium.ttf
+          weight: 500
+        - asset: assets/fonts/RalewayRomanMedium.ttf
+          weight: 500
+        - asset: assets/fonts/RalewayRomanRegular.ttf
+          weight: 400
+        - asset: assets/fonts/RalewayRomanBold.ttf
+          weight: 700
+        - asset: assets/fonts/RalewayRomanExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/RalewayRomanSemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/RalewaySemiBold.ttf
+          weight: 600
+    - family: Roboto
+      fonts: 
+        - asset: assets/fonts/RobotoMedium.ttf
+          weight: 500
+        - asset: assets/fonts/RobotoRegular.ttf
+          weight: 400
+    - family: Nunito Sans
+      fonts: 
+        - asset: assets/fonts/NunitoSansLight.ttf
+          weight: 300
+        - asset: assets/fonts/NunitoSansBold.ttf
+          weight: 700
+    - family: Poppins
+      fonts: 
+        - asset: assets/fonts/PoppinsMedium.ttf
+          weight: 500
+        - asset: assets/fonts/PoppinsSemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/PoppinsRegular.ttf
+          weight: 400
+        - asset: assets/fonts/PoppinsBold.ttf
+          weight: 700
+    - family: Inter
+      fonts: 
+        - asset: assets/fonts/InterMedium.ttf
+          weight: 500
+        - asset: assets/fonts/InterRegular.ttf
+          weight: 400
+        - asset: assets/fonts/InterBold.ttf
+          weight: 700
+    - family: Lexend
+      fonts: 
+        - asset: assets/fonts/LexendMedium.ttf
+          weight: 500
+    - family: Akaya Kanadaka
+      fonts: 
+        - asset: assets/fonts/AkayaKanadakaRegular.ttf
+          weight: 400
