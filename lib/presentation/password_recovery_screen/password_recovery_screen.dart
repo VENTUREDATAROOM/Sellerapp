@@ -10,44 +10,43 @@ class PasswordRecoveryScreen extends GetWidget<PasswordRecoveryController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            body: SizedBox(
-                width: double.maxFinite,
-                child: Column(children: [
-                  _buildPasswordRecoveryColumn(),
-                  SizedBox(height: 8.v),
-                  Text("msg_password_recovery".tr,
-                      style: CustomTextStyles.titleLargeRalewayGray900),
-                  SizedBox(height: 7.v),
-                  SizedBox(
-                      width: 248.h,
-                      child: Text("msg_how_you_would_like".tr,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: CustomTextStyles.bodyLargeNunitoSans
-                              .copyWith(height: 1.42))),
-                  SizedBox(height: 29.v),
-                  _buildSmsComponentList(),
-                  Spacer(),
-                  CustomElevatedButton(
-                      text: "lbl_next".tr,
-                      margin: EdgeInsets.symmetric(horizontal: 20.h),
-                      onPressed: () {
-                        onTapNext();
-                      }),
-                  SizedBox(height: 26.v),
-                  Opacity(
-                      opacity: 0.9,
-                      child: GestureDetector(
-                          onTap: () {
-                            onTapTxtTitle();
-                          },
-                          child: Text("lbl_cancel".tr,
-                              style: theme.textTheme.bodyMedium))),
-                  SizedBox(height: 69.v)
-                ]))));
+    return Scaffold(
+        body: SizedBox(
+            width: double.maxFinite,
+            child: Column(children: [
+              _buildPasswordRecoveryColumn(),
+              SizedBox(height: 8.v),
+              Text("msg_password_recovery".tr,
+                  style: CustomTextStyles.titleLargeRalewayGray900),
+              SizedBox(height: 7.v),
+              SizedBox(
+                  width: 248.h,
+                  child: Text("msg_how_you_would_like".tr,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: CustomTextStyles.bodyLargeNunitoSans
+                          .copyWith(height: 1.42))),
+              SizedBox(height: 29.v),
+              _buildSmsComponentList(),
+              Spacer(),
+              CustomElevatedButton(
+                  text: "lbl_next".tr,
+                  margin: EdgeInsets.symmetric(horizontal: 20.h),
+                  onPressed: () {
+                    onTapNext();
+                  }),
+              SizedBox(height: 26.v),
+              Opacity(
+                  opacity: 0.9,
+                  child: GestureDetector(
+                      onTap: () {
+                        onTapTxtTitle();
+                      },
+                      child: Text("lbl_cancel".tr,
+                          style: theme.textTheme.bodyMedium))),
+              SizedBox(height: 69.v)
+            ])));
   }
 
   /// Section Widget

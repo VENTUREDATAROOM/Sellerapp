@@ -72,6 +72,8 @@ class CustomTextStyles {
         color: appTheme.gray60001,
         fontSize: 12.fSize,
       );
+  static get bodySmallRalewayBlack900 => theme.textTheme.bodySmall!.raleway
+      .copyWith(color: theme.primaryColor, fontStyle: FontStyle.italic);
   static get bodySmallRalewaya54e6c16 =>
       theme.textTheme.bodySmall!.raleway.copyWith(
         color: Color(0XA54E6C16),

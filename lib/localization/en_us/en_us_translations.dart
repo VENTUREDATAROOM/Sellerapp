@@ -28,6 +28,7 @@ final Map<String, String> enUs = {
 
   // 03 Login Screen
   "lbl_login": "Login", "msg_good_to_see_you": "Good to see you back!",
+  "lbl_forgot_password": "Forgot Password",
 
   // 04 Password Screen
   "lbl_not_you": "Not you?",

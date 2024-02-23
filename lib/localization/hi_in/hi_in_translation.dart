@@ -30,6 +30,7 @@ final Map<String, String> hiIn = {
   // 03 लॉगिन स्क्रीन
   "lbl_login": "लॉग इन",
   "msg_good_to_see_you": "आपको फिर से देखकर अच्छा लगा!",
+  "lbl_forgot_password": "पासवर्ड भूल गए",
 
   // 04 पासवर्ड स्क्रीन
   "lbl_not_you": "तुम नहीं?",
