@@ -24,12 +24,15 @@ class LoginController extends GetxController {
     loading.value = true;
     Map data = {
       'mobileNumber': mobileController.value.text,
-      'password': passwordController.value.text
+      'password': passwordController.value.text,
+      "otpgen": "string",
     };
     var respData = await _api.loginApi(data);
     print("@@@@@@@@@@@@@@@@@@@@@" + respData.toString());
     loading.value = false;
-    if (respData[AppConstants.requestCustomCode] == "200") {
+    Logger();
+    print("status of response = ${respData[AppConstants.status]}");
+    if (respData[AppConstants.status] == 200) {
       OneContext().hideCurrentSnackBar();
       OneContext().showSnackBar(
           builder: (context) => ShowSnackBar()
@@ -37,13 +40,15 @@ class LoginController extends GetxController {
       PreferenceUtils.setString(
           AppConstants.userId, mobileController.value.text.toString());
       PreferenceUtils.setString(
-          AppConstants.token, respData[AppConstants.requestToken]);
+          AppConstants.password, passwordController.value.text.toString());
+      // PreferenceUtils.setString(
+      //     AppConstants.token, respData[AppConstants.requestToken]);
       Get.offAndToNamed(AppRoutes.passwordScreen);
     } else {
       OneContext().hideCurrentSnackBar();
       OneContext().showSnackBar(
           builder: (context) => ShowSnackBar()
-              .customBar('User Name And Password Did Not Match', context!));
+              .customBar('Mobile Number And Password Did Not Match', context!));
       // Utils.snackBar('Login Error', 'User Name And Password Did Not Match');
     }
   }

@@ -4,8 +4,14 @@ import 'package:fresh_mandi/widgets/custom_icon_button.dart';
 import 'package:fresh_mandi/widgets/custom_pin_code_text_field.dart';
 import 'package:flutter/material.dart';
 
-class PasswordScreen extends GetWidget<PasswordController> {
+class PasswordScreen extends StatefulWidget {
   const PasswordScreen({Key? key}) : super(key: key);
+  @override
+  State<PasswordScreen> createState() => _PasswordScreenState();
+}
+
+class _PasswordScreenState extends State<PasswordScreen> {
+  PasswordController passwordController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +35,10 @@ class PasswordScreen extends GetWidget<PasswordController> {
                           padding: EdgeInsets.symmetric(horizontal: 81.h),
                           child: Obx(() => CustomPinCodeTextField(
                               context: Get.context!,
-                              controller: controller.otpController.value,
+                              controller:
+                                  passwordController.otpController.value,
                               onChanged: (value) {
-                                Get.toNamed(
-                                  AppRoutes.aadharKycScreen,
-                                );
+                                passwordController.verifyOtp();
                               }))),
                       Spacer(),
                       Padding(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../repository/registration_repo.dart';
 import '../../../widgets/constants.dart';
+import '../../../widgets/shared_preference.dart';
 import '../../../widgets/utils.dart';
 
 /// A controller class for the CreateAccountScreen.
@@ -46,7 +47,15 @@ class CreateAccountController extends GetxController {
               .customBar(value['message'], context!, isSuccessPopup: true));
       // Utils.snackBar('Registration', value['message']);
       if (value[AppConstants.requestCustomCode] == "200") {
-        Get.toNamed(AppRoutes.loginScreen);
+        PreferenceUtils.setString(AppConstants.userId,
+            yourNumberValueController.value.text.toString());
+        PreferenceUtils.setString(
+            AppConstants.password, passwordController.value.text.toString());
+        PreferenceUtils.setString(
+            AppConstants.name, nameController.value.text.toString());
+        PreferenceUtils.setString(
+            AppConstants.email, emailController.value.text.toString());
+        Get.toNamed(AppRoutes.aadharKycScreen);
       }
     }).onError((error, stackTrace) {
       loading.value = false;

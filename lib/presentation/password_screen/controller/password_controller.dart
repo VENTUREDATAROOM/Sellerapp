@@ -1,7 +1,12 @@
 import 'package:fresh_mandi/core/app_export.dart';
 import 'package:fresh_mandi/presentation/password_screen/models/password_model.dart';
+import 'package:fresh_mandi/presentation/password_screen/repo/otp_repository.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:flutter/material.dart';
+
+import '../../../widgets/constants.dart';
+import '../../../widgets/shared_preference.dart';
+import '../../../widgets/utils.dart';
 
 /// A controller class for the PasswordScreen.
 ///
@@ -9,7 +14,8 @@ import 'package:flutter/material.dart';
 /// current passwordModelObj
 class PasswordController extends GetxController with CodeAutoFill {
   Rx<TextEditingController> otpController = TextEditingController().obs;
-
+  RxBool loading = false.obs;
+  final _api = OtpRepository();
   Rx<PasswordModel> passwordModelObj = PasswordModel().obs;
 
   @override
@@ -21,5 +27,36 @@ class PasswordController extends GetxController with CodeAutoFill {
   void onInit() {
     super.onInit();
     listenForCode();
+  }
+
+  Future<void> verifyOtp() async {
+    loading.value = true;
+    String mobile = PreferenceUtils.getString(AppConstants.userId);
+    String password = PreferenceUtils.getString(AppConstants.password);
+    Map data = {
+      'mobileNumber': mobile,
+      'password': password,
+      "otpgen": otpController.value.text,
+    };
+    var respData = await _api.verifyOtpApi(data);
+    print("Verify Otp response" + respData.toString());
+    loading.value = false;
+    Logger();
+    print("status of response = ${respData[AppConstants.status]}");
+    if (respData[AppConstants.status] == 200) {
+      OneContext().hideCurrentSnackBar();
+      OneContext().showSnackBar(
+          builder: (context) => ShowSnackBar()
+              .customBar("Welcome Back!", context!, isSuccessPopup: true));
+      PreferenceUtils.setString(
+          AppConstants.token, respData[AppConstants.requestToken]);
+      Get.offAndToNamed(AppRoutes.aadharKycScreen);
+    } else {
+      OneContext().hideCurrentSnackBar();
+      OneContext().showSnackBar(
+          builder: (context) => ShowSnackBar().customBar(
+              "Otp Doesn't Match, Please input valid Otp", context!));
+      // Utils.snackBar('Login Error', 'User Name And Password Did Not Match');
+    }
   }
 }
