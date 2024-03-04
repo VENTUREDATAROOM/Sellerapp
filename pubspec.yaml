@@ -22,6 +22,9 @@ dependencies:
   fluttertoast: ^8.2.4
   draw_graph: ^1.0.0
   one_context: ^2.1.0
+  image_picker: ^1.0.7
+  image_cropper: ^5.0.1
+  mime_type: ^1.0.0
 dev_dependencies: 
   flutter_test: 
     sdk: flutter

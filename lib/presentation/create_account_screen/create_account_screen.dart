@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 import 'controller/create_account_controller.dart';
@@ -76,35 +78,62 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       height: MediaQuery.of(context).size.height * 0.45,
       width: double.infinity,
       child: Container(
-          height: MediaQuery.of(context).size.height * 0.45,
-          padding: EdgeInsets.symmetric(horizontal: 30.h, vertical: 25.v),
-          child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 80.v),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Text("lbl_create_account".tr,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.displayMedium!
-                            .copyWith(height: 1.08))),
-                SizedBox(height: 50.v),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                      height: 80,
-                      width: 80,
-                      // margin: EdgeInsets.only(left: 30.h),
-                      child: CustomImageView(
+        height: MediaQuery.of(context).size.height * 0.45,
+        padding: EdgeInsets.symmetric(horizontal: 30.h, vertical: 25.v),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 80.v),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Text(
+                "lbl_create_account".tr,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.displayMedium!.copyWith(height: 1.08),
+              ),
+            ),
+            SizedBox(height: 50.v),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Container(
+                height: 80,
+                width: 80,
+                // margin: EdgeInsets.only(left: 30.h),
+                child: createAccountController.imageFile.isEmpty
+                    ? CustomImageView(
                         imagePath: ImageConstant.imgCameraIcon,
                         color: theme.colorScheme.primary,
                         height: 120.adaptSize,
                         width: 120.adaptSize,
-                      )),
-                )
-              ])),
+                        onTap: () {
+                          createAccountController.pickImage();
+                        },
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary,
+                          shape: BoxShape.circle,
+                        ),
+                        height: 120.adaptSize,
+                        width: 120.adaptSize,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              60.0), // Half of the width or height to make it circular
+                          child: Image.file(
+                            createAccountController.pickedImage.value!,
+                            height: 120.adaptSize,
+                            width: 120.adaptSize,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
