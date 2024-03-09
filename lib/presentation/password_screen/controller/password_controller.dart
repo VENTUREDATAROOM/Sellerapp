@@ -3,7 +3,6 @@ import 'package:fresh_mandi/presentation/password_screen/models/password_model.d
 import 'package:fresh_mandi/presentation/password_screen/repo/otp_repository.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:flutter/material.dart';
-
 import '../../../widgets/constants.dart';
 import '../../../widgets/shared_preference.dart';
 import '../../../widgets/utils.dart';
@@ -17,6 +16,9 @@ class PasswordController extends GetxController with CodeAutoFill {
   RxBool loading = false.obs;
   final _api = OtpRepository();
   Rx<PasswordModel> passwordModelObj = PasswordModel().obs;
+  String profileImage = "";
+  String profileName = "";
+  String mobileNumber = "";
 
   @override
   void codeUpdated() {
@@ -26,6 +28,9 @@ class PasswordController extends GetxController with CodeAutoFill {
   @override
   void onInit() {
     super.onInit();
+    profileImage = PreferenceUtils.getString(AppConstants.profileImage);
+    profileName = PreferenceUtils.getString(AppConstants.name);
+    mobileNumber = PreferenceUtils.getString(AppConstants.userId);
     listenForCode();
   }
 
@@ -37,6 +42,9 @@ class PasswordController extends GetxController with CodeAutoFill {
       'mobileNumber': mobile,
       'password': password,
       "otpgen": otpController.value.text,
+      "name": "string",
+      "baseImg": "string",
+      "contentType": "string"
     };
     var respData = await _api.verifyOtpApi(data);
     print("Verify Otp response" + respData.toString());

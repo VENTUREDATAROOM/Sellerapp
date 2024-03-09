@@ -43,6 +43,7 @@ final Map<String, String> enUs = {
   // 08 Password Recovery — Code Screen
   "lbl_98_00": "+91******8700",
   "lbl_send_again": "Send Again",
+  "lbl_Send_otp": "Recover",
   "msg_enter_4_digits_code":
       "Enter 4-digits code we sent you on your phone number ",
 
@@ -198,7 +199,7 @@ final Map<String, String> enUs = {
   "lbl_cauliflower": "Cauliflower",
   "lbl_edit_profile": "Edit Profile",
   "lbl_email": "Email",
-  "lbl_hello_ajit": "Hello, Ajit!!",
+  "lbl_hello_ajit": "Hello,",
   "lbl_kyc": "KYC",
   "lbl_lattuce": "Lattuce",
   "lbl_new_password": "New Password",

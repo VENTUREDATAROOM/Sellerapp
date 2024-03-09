@@ -120,7 +120,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         width: 120.adaptSize,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(
-                              60.0), // Half of the width or height to make it circular
+                              60.0), 
                           child: Image.file(
                             createAccountController.pickedImage.value!,
                             height: 120.adaptSize,

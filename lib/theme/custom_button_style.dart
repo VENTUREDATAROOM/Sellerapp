@@ -34,6 +34,12 @@ class CustomButtonStyles {
           borderRadius: BorderRadius.circular(16.h),
         ),
       );
+  static ButtonStyle get fillOrange => ElevatedButton.styleFrom(
+        backgroundColor: ColorSchemes.primaryColorScheme.primary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.h),
+        ),
+      );
   // text button style
   static ButtonStyle get none => ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),

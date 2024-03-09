@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'controller/password_controller.dart';
 import 'package:fresh_mandi/core/app_export.dart';
 import 'package:fresh_mandi/widgets/custom_icon_button.dart';
@@ -77,6 +79,8 @@ class _PasswordScreenState extends State<PasswordScreen> {
 
   /// Section Widget
   Widget _buildPasswordScreen() {
+    String base64Image = passwordController.profileImage;
+
     return SizedBox(
         height: 376.v,
         width: double.maxFinite,
@@ -89,18 +93,33 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
                     SizedBox(height: 45.v),
                     Container(
-                        height: 105.adaptSize,
-                        width: 105.adaptSize,
-                        padding: EdgeInsets.all(7.h),
-                        decoration: AppDecoration.outlineBlack900.copyWith(
-                            borderRadius: BorderRadiusStyle.roundedBorder52),
-                        child: CustomImageView(
-                            imagePath: ImageConstant.imgImage,
-                            height: 91.adaptSize,
-                            width: 91.adaptSize,
-                            alignment: Alignment.center)),
+                      height: 105.adaptSize,
+                      width: 105.adaptSize,
+                      padding: EdgeInsets.all(7.h),
+                      decoration: AppDecoration.outlineBlack900.copyWith(
+                          borderRadius: BorderRadiusStyle.roundedBorder52),
+                      child: (passwordController.profileImage == "")
+                          ? CustomImageView(
+                              imagePath: ImageConstant.imgImage,
+                              height: 91.adaptSize,
+                              width: 91.adaptSize,
+                              alignment: Alignment.center)
+                          : Container(
+                              width: double.infinity,
+                              margin: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.memory(const Base64Decoder()
+                                      .convert(base64Image))),
+                            ),
+                    ),
                     SizedBox(height: 32.v),
-                    Text("lbl_hello_ajit".tr,
+                    Text(
+                        "lbl_hello_ajit".tr +
+                            " ${passwordController.profileName}",
                         textAlign: TextAlign.center,
                         maxLines: 1,
                         style: theme.textTheme.headlineMedium)
@@ -114,7 +133,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                       style: CustomTextStyles.bodyLargeNunitoSanscc4e6c16
                           .copyWith(height: 1.74)),
                   TextSpan(
-                      text: "lbl_98_00".tr,
+                      text: "+91 ${passwordController.mobileNumber}".tr,
                       style: CustomTextStyles.titleMediumNunitoSanscc4e6c16)
                 ]),
                 textAlign: TextAlign.center),

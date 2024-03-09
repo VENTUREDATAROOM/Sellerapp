@@ -1,27 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:fresh_mandi/data/apiClient/app_url.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fresh_mandi/core/app_export.dart';
 import 'package:fresh_mandi/presentation/create_account_screen/models/create_account_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mime_type/mime_type.dart';
-import '../../../repository/registration_repo.dart';
 import '../../../widgets/constants.dart';
 import '../../../widgets/shared_preference.dart';
 import '../../../widgets/utils.dart';
 import 'package:http/http.dart' as http;
-import 'package:path/path.dart' show basename;
 
 /// A controller class for the CreateAccountScreen.
 ///
 /// This class manages the state of the CreateAccountScreen, including the
 /// current createAccountModelObj
 class CreateAccountController extends GetxController {
-  final _api = RegisterRepository();
-
   final nameController = TextEditingController().obs;
 
   final emailController = TextEditingController().obs;
@@ -48,7 +42,7 @@ class CreateAccountController extends GetxController {
       final pickedFile = await imagePicker.pickImage(
         source: ImageSource.camera,
         maxHeight: 150,
-        imageQuality: 90, // Adjust image quality as needed
+        imageQuality: 90,
       );
 
       if (pickedFile != null) {
@@ -80,9 +74,7 @@ class CreateAccountController extends GetxController {
     request.fields['name'] = nameController.value.text;
     request.fields['email'] = emailController.value.text;
     request.fields['password'] = passwordController.value.text;
-    request.fields['baseImg'] = ''; // Add the value for 'baseImg' here
-
-    // Add the image file to the multipart request
+    request.fields['baseImg'] = '';
     request.files
         .add(await http.MultipartFile.fromPath('profileImage', imageFile));
 
@@ -90,9 +82,12 @@ class CreateAccountController extends GetxController {
     print(response);
     if (response.statusCode == 200) {
       // Handle successful response
-      var responseBody = await response.stream.bytesToString();
-      var data = json.decode(responseBody);
 
+      var responseBody = await response.stream.bytesToString();
+
+      print("Signup response json == $responseBody");
+      // Decode the JSON response
+      Map<String, dynamic> data = jsonDecode(responseBody);
       OneContext().showSnackBar(
           builder: (context) => ShowSnackBar()
               .customBar(data['message'], context!, isSuccessPopup: true));
@@ -105,7 +100,7 @@ class CreateAccountController extends GetxController {
             AppConstants.name, nameController.value.text.toString());
         PreferenceUtils.setString(
             AppConstants.email, emailController.value.text.toString());
-        Get.toNamed(AppRoutes.aadharKycScreen);
+        Get.toNamed(AppRoutes.passwordScreen);
       }
     } else {
       // Handle error response

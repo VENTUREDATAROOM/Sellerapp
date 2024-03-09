@@ -1,77 +1,66 @@
+import '../../widgets/custom_pin_code_text_field.dart';
 import 'controller/password_recovery_code_controller.dart';
 import 'package:fresh_mandi/core/app_export.dart';
 import 'package:fresh_mandi/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
-class PasswordRecoveryCodeScreen
-    extends GetWidget<PasswordRecoveryCodeController> {
+class PasswordRecoveryCodeScreen extends StatefulWidget {
   const PasswordRecoveryCodeScreen({Key? key}) : super(key: key);
 
   @override
+  State<PasswordRecoveryCodeScreen> createState() =>
+      _PasswordRecoveryCodeScreenState();
+}
+
+class _PasswordRecoveryCodeScreenState
+    extends State<PasswordRecoveryCodeScreen> {
+  PasswordRecoveryCodeController passwordRecovryController = Get.find();
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            body: SizedBox(
-                width: double.maxFinite,
-                child: Column(children: [
-                  _buildPasswordRecoveryColumn(),
-                  SizedBox(height: 8.v),
-                  Text("msg_password_recovery".tr,
-                      style: CustomTextStyles.titleLargeRalewayGray900),
-                  SizedBox(height: 7.v),
-                  Container(
-                      width: 265.h,
-                      margin: EdgeInsets.only(left: 55.h, right: 54.h),
-                      child: Text("msg_enter_4_digits_code".tr,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: CustomTextStyles.bodyLargeNunitoSans
-                              .copyWith(height: 1.42))),
-                  SizedBox(height: 15.v),
-                  Text("lbl_98_00".tr,
-                      style: CustomTextStyles.titleMediumNunitoSans),
-                  SizedBox(height: 29.v),
-                  GestureDetector(
-                      onTap: () {
-                        onTapDots();
-                      },
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomImageView(
-                                imagePath: ImageConstant.imgEllispse01Indigo50,
-                                height: 17.adaptSize,
-                                width: 17.adaptSize),
-                            CustomImageView(
-                                imagePath: ImageConstant.imgEllispse01Indigo50,
-                                height: 17.adaptSize,
-                                width: 17.adaptSize,
-                                margin: EdgeInsets.only(left: 12.h)),
-                            CustomImageView(
-                                imagePath: ImageConstant.imgEllispse01Indigo50,
-                                height: 17.adaptSize,
-                                width: 17.adaptSize,
-                                margin: EdgeInsets.only(left: 12.h)),
-                            CustomImageView(
-                                imagePath: ImageConstant.imgEllispse01Indigo50,
-                                height: 17.adaptSize,
-                                width: 17.adaptSize,
-                                margin: EdgeInsets.only(left: 12.h))
-                          ])),
-                  Spacer(),
-                  CustomElevatedButton(
-                      height: 50.v,
-                      width: 201.h,
-                      text: "lbl_send_again".tr,
-                      buttonStyle: CustomButtonStyles.fillRed),
-                  SizedBox(height: 31.v),
-                  Opacity(
-                      opacity: 0.9,
-                      child: Text("lbl_cancel".tr,
-                          style: theme.textTheme.bodyMedium)),
-                  SizedBox(height: 69.v)
-                ]))));
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: SizedBox(
+            width: double.maxFinite,
+            child: Column(children: [
+              _buildPasswordRecoveryColumn(),
+              SizedBox(height: 8.v),
+              Text("msg_password_recovery".tr,
+                  style: CustomTextStyles.titleLargeRalewayGray900),
+              SizedBox(height: 7.v),
+              Container(
+                  width: 265.h,
+                  margin: EdgeInsets.only(left: 55.h, right: 54.h),
+                  child: Text("msg_enter_4_digits_code".tr,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: CustomTextStyles.bodyLargeNunitoSans
+                          .copyWith(height: 1.42))),
+              SizedBox(height: 15.v),
+              Text("lbl_98_00".tr,
+                  style: CustomTextStyles.titleMediumNunitoSans),
+              SizedBox(height: 29.v),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 81.h),
+                  child: Obx(() => CustomPinCodeTextField(
+                      context: Get.context!,
+                      controller: passwordRecovryController.otpController.value,
+                      onChanged: (value) {
+                        // passwordRecovryController.verifyOtp();
+                      }))),
+              Spacer(),
+              CustomElevatedButton(
+                  height: 50.v,
+                  width: 201.h,
+                  text: "lbl_send_again".tr,
+                  buttonStyle: CustomButtonStyles.fillRed),
+              SizedBox(height: 31.v),
+              Opacity(
+                  opacity: 0.9,
+                  child:
+                      Text("lbl_cancel".tr, style: theme.textTheme.bodyMedium)),
+              SizedBox(height: 69.v)
+            ])));
   }
 
   /// Section Widget

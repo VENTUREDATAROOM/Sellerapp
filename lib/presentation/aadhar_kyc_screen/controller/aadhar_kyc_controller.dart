@@ -14,6 +14,6 @@ class AadharKycController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    cardNumberController.dispose();
+    // cardNumberController.dispose();
   }
 }

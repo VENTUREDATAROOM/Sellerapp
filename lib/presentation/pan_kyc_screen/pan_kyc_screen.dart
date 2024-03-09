@@ -63,14 +63,6 @@ class PanKycScreen extends GetWidget<PanKycController> {
                                                     width: 15.adaptSize,
                                                     alignment:
                                                         Alignment.center))),
-                                        // Align(
-                                        //     alignment: Alignment.centerLeft,
-                                        //     child: Padding(
-                                        //         padding:
-                                        //             EdgeInsets.only(left: 12.h),
-                                        //         child: Text("lbl_1".tr,
-                                        //             style: CustomTextStyles
-                                        //                 .bodyLargeInterOnError)))
                                       ])),
                               Container(
                                   width: 41.h,
@@ -223,29 +215,50 @@ class PanKycScreen extends GetWidget<PanKycController> {
                                         textInputAction: TextInputAction.done)),
                                 SizedBox(height: 79.v),
                                 Align(
-                                    alignment: Alignment.center,
-                                    child: Container(
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 7.h),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 41.h, vertical: 21.v),
-                                        decoration: AppDecoration
-                                            .outlinePrimary3
-                                            .copyWith(
-                                                borderRadius: BorderRadiusStyle
-                                                    .roundedBorder20),
-                                        child: Column(
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 7.h),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 41.h, vertical: 21.v),
+                                    decoration: AppDecoration.outlinePrimary3
+                                        .copyWith(
+                                            borderRadius: BorderRadiusStyle
+                                                .roundedBorder20),
+                                    child: controller.imageFile.isEmpty
+                                        ? Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              SizedBox(height: 6.v),
-                                              Text("msg_upload_your_pan".tr,
-                                                  style: CustomTextStyles
-                                                      .bodySmallPoppinsGray60001),
-                                              SizedBox(height: 13.v),
-                                              CustomOutlinedButton(
+                                                SizedBox(height: 6.v),
+                                                Text("msg_upload_your_pan".tr,
+                                                    style: CustomTextStyles
+                                                        .bodySmallPoppinsGray60001),
+                                                SizedBox(height: 13.v),
+                                                CustomOutlinedButton(
                                                   width: 106.h,
-                                                  text: "lbl_upload".tr)
-                                            ]))),
+                                                  text: "lbl_upload".tr,
+                                                  onPressed: () {
+                                                    controller
+                                                        .pickingImage(context);
+                                                  },
+                                                )
+                                              ])
+                                        : Container(
+                                            decoration: BoxDecoration(
+                                              color: theme.colorScheme.primary,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            height: 120.adaptSize,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Image.file(
+                                              controller.pickedImage.value!,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                  ),
+                                ),
                                 Spacer(),
                                 CustomElevatedButton(
                                     height: 33.v,

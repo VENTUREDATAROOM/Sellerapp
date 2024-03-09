@@ -242,6 +242,8 @@ class PrimaryColors {
   Color get red40001 => Color(0XFFF55951);
   Color get red500 => Color(0XFFFC3434);
 
+  Color get redmono => Color(0XFFCA927F);
+
   // White
   Color get whiteA700 => Color(0XFFFCFCFE);
 }

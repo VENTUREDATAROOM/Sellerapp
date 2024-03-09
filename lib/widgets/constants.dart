@@ -8,4 +8,5 @@ class AppConstants {
   static const String password = "Password";
   static const String name = "Name";
   static const String email = "Email";
+  static const String profileImage = "ImageProfile";
 }
