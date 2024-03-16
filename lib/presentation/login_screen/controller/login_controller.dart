@@ -28,6 +28,7 @@ class LoginController extends GetxController {
   Rx<bool> isShowPassword = true.obs;
 
   Future<void> loginApi() async {
+    loading.value = true;
     var request = http.MultipartRequest('POST', Uri.parse(AppUrl.loginUrl));
 
     request.fields['mobileNumber'] = mobileController.value.text;
@@ -36,6 +37,7 @@ class LoginController extends GetxController {
     request.fields['name'] = "";
     request.fields['baseImg'] = "";
     request.fields['contentType'] = "";
+    request.fields['userCode'] = "";
 
     // Add headers to the request
     request.headers.addAll({
@@ -45,41 +47,53 @@ class LoginController extends GetxController {
 
     var response = await request.send();
 
-    if (response.statusCode == 200) {
-      print('Uploaded!');
-      // Read the response body
-      var responseBody = await response.stream.bytesToString();
-      print("login response json == $responseBody");
-      // Decode the JSON response
-      Map<String, dynamic> decodedResponse = jsonDecode(responseBody);
+    try {
+      if (response.statusCode == 200) {
+        print('Uploaded!');
+        // Read the response body
+        var responseBody = await response.stream.bytesToString();
+        print("login response json == $responseBody");
+        // Decode the JSON response
+        Map<String, dynamic> decodedResponse = jsonDecode(responseBody);
 
-      // Access each field separately
-      print("Mobile Number: ${decodedResponse['result']['mobileNumber']}");
-      print("Password: ${decodedResponse['result']['password']}");
-      print("Otpgen: ${decodedResponse['result']['otpgen']}");
-      print("Name: ${decodedResponse['result']['name']}");
-      print("BaseImg: ${decodedResponse['result']['baseImg']}");
-      OneContext().hideCurrentSnackBar();
+        // Access each field separately
+        print("Mobile Number: ${decodedResponse['result']['mobileNumber']}");
+        print("Password: ${decodedResponse['result']['password']}");
+        print("Otpgen: ${decodedResponse['result']['otpgen']}");
+        print("Name: ${decodedResponse['result']['name']}");
+        print("BaseImg: ${decodedResponse['result']['baseImg']}");
+        OneContext().hideCurrentSnackBar();
+        OneContext().showSnackBar(
+            builder: (context) => ShowSnackBar()
+                .customBar("Welcome Back!", context!, isSuccessPopup: true));
+        PreferenceUtils.setString(
+            AppConstants.userId, decodedResponse['result']['mobileNumber']);
+        PreferenceUtils.setString(
+            AppConstants.password, passwordController.value.text.toString());
+        PreferenceUtils.setString(
+            AppConstants.profileImage, decodedResponse['result']['baseImg']);
+        PreferenceUtils.setString(
+            AppConstants.name, decodedResponse['result']['name']);
+           
+        // PreferenceUtils.setString(
+        //     AppConstants.token, respData[AppConstants.requestToken]);
+        Get.offAndToNamed(AppRoutes.passwordScreen);
+      } else {
+        OneContext().hideCurrentSnackBar();
+        OneContext().showSnackBar(
+            builder: (context) => ShowSnackBar().customBar(
+                'Mobile Number And Password Did Not Match', context!));
+        // Utils.snackBar('Login Error', 'User Name And Password Did Not Match');
+      }
+    } catch (e) {
+      print('An error occurred: $e');
       OneContext().showSnackBar(
-          builder: (context) => ShowSnackBar()
-              .customBar("Welcome Back!", context!, isSuccessPopup: true));
-      PreferenceUtils.setString(
-          AppConstants.userId, decodedResponse['result']['mobileNumber']);
-      PreferenceUtils.setString(
-          AppConstants.password, passwordController.value.text.toString());
-      PreferenceUtils.setString(
-          AppConstants.profileImage, decodedResponse['result']['baseImg']);
-      PreferenceUtils.setString(
-          AppConstants.name, decodedResponse['result']['name']);
-      // PreferenceUtils.setString(
-      //     AppConstants.token, respData[AppConstants.requestToken]);
-      Get.offAndToNamed(AppRoutes.passwordScreen);
-    } else {
-      OneContext().hideCurrentSnackBar();
-      OneContext().showSnackBar(
-          builder: (context) => ShowSnackBar()
-              .customBar('Mobile Number And Password Did Not Match', context!));
-      // Utils.snackBar('Login Error', 'User Name And Password Did Not Match');
+          builder: (context) => ShowSnackBar().customBar(
+              "Ooops!! Something Went Wrong, Please try after sometime",
+              context!,
+              isSuccessPopup: false));
+    } finally {
+      loading.value = false;
     }
   }
 

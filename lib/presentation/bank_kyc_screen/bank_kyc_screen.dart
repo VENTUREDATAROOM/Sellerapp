@@ -1,3 +1,6 @@
+import 'package:fresh_mandi/core/utils/validation_functions.dart';
+
+import '../../widgets/custom_drop_down.dart';
 import 'controller/bank_kyc_controller.dart';
 import 'package:fresh_mandi/core/app_export.dart';
 import 'package:fresh_mandi/widgets/app_bar/appbar_leading_image.dart';
@@ -17,7 +20,7 @@ class BankKycScreen extends GetWidget<BankKycController> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            resizeToAvoidBottomInset: false,
+            resizeToAvoidBottomInset: true,
             appBar: _buildAppBar(),
             body: SingleChildScrollView(
               child: Container(
@@ -65,14 +68,6 @@ class BankKycScreen extends GetWidget<BankKycController> {
                                                       width: 15.adaptSize,
                                                       alignment:
                                                           Alignment.center))),
-                                          // Align(
-                                          //     alignment: Alignment.centerLeft,
-                                          //     child: Padding(
-                                          //         padding: EdgeInsets.only(
-                                          //             left: 12.h),
-                                          //         child: Text("lbl_1".tr,
-                                          //             style: CustomTextStyles
-                                          //                 .bodyLargeInterOnError)))
                                         ])),
                                 Container(
                                     width: 41.h,
@@ -196,67 +191,69 @@ class BankKycScreen extends GetWidget<BankKycController> {
                               ]))
                             ])),
                     SizedBox(height: 22.v),
-                    Container(
-                        margin: EdgeInsets.only(left: 4.h),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 23.h, vertical: 18.v),
-                        decoration: AppDecoration.outlineBlack9001.copyWith(
-                            borderRadius: BorderRadiusStyle.circleBorder11),
-                        child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 20.v),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 1.h),
-                                  child: Text("lbl_bank_account".tr,
-                                      style: CustomTextStyles
-                                          .titleMediumInterPrimary)),
-                              SizedBox(height: 7.v),
-                              Container(
-                                  width: 259.h,
-                                  margin:
-                                      EdgeInsets.only(left: 1.h, right: 16.h),
-                                  child: Text("msg_please_enter_your2".tr,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: theme.textTheme.labelMedium!
-                                          .copyWith(height: 1.30))),
-                              SizedBox(height: 14.v),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 1.h),
-                                  child: Text("lbl_account_number".tr,
-                                      style: theme.textTheme.labelMedium)),
-                              SizedBox(height: 4.v),
-                              _buildFrame(),
-                              SizedBox(height: 12.v),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 1.h),
-                                  child: Text("msg_confirm_account".tr,
-                                      style: theme.textTheme.labelMedium)),
-                              SizedBox(height: 4.v),
-                              _buildFrame1(),
-                              SizedBox(height: 12.v),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 1.h),
-                                  child: Text("lbl_bank_name".tr,
-                                      style: theme.textTheme.labelMedium)),
-                              SizedBox(height: 4.v),
-                              _buildFrame2(),
-                              SizedBox(height: 12.v),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 1.h),
-                                  child: Text("lbl_ifsc_code".tr,
-                                      style: theme.textTheme.labelMedium)),
-                              SizedBox(height: 4.v),
-                              _buildFrame3(),
-                              SizedBox(height: 18.v),
-                              Text("lbl_account_type".tr,
-                                  style: theme.textTheme.labelMedium),
-                              SizedBox(height: 5.v),
-                              _buildFrame4(),
-                              SizedBox(height: 26.v),
-                              Align(
+                    Form(
+                      key: controller.formKey,
+                      child: Container(
+                          margin: EdgeInsets.only(left: 4.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 23.h, vertical: 18.v),
+                          decoration: AppDecoration.outlineBlack9001.copyWith(
+                              borderRadius: BorderRadiusStyle.circleBorder11),
+                          child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 20.v),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 1.h),
+                                    child: Text("lbl_bank_account".tr,
+                                        style: CustomTextStyles
+                                            .titleMediumInterPrimary)),
+                                SizedBox(height: 7.v),
+                                Container(
+                                    width: 259.h,
+                                    margin:
+                                        EdgeInsets.only(left: 1.h, right: 16.h),
+                                    child: Text("msg_please_enter_your2".tr,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: theme.textTheme.labelMedium!
+                                            .copyWith(height: 1.30))),
+                                SizedBox(height: 14.v),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 1.h),
+                                    child: Text("lbl_account_number".tr,
+                                        style: theme.textTheme.labelMedium)),
+                                SizedBox(height: 4.v),
+                                _buildFrame(),
+                                SizedBox(height: 12.v),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 1.h),
+                                    child: Text("msg_confirm_account".tr,
+                                        style: theme.textTheme.labelMedium)),
+                                SizedBox(height: 4.v),
+                                _buildFrame1(),
+                                SizedBox(height: 12.v),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 1.h),
+                                    child: Text("lbl_bank_name".tr,
+                                        style: theme.textTheme.labelMedium)),
+                                SizedBox(height: 4.v),
+                                _buildFrame2(),
+                                SizedBox(height: 12.v),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 1.h),
+                                    child: Text("lbl_ifsc_code".tr,
+                                        style: theme.textTheme.labelMedium)),
+                                SizedBox(height: 4.v),
+                                _buildFrame3(),
+                                SizedBox(height: 18.v),
+                                Text("lbl_account_type".tr,
+                                    style: theme.textTheme.labelMedium),
+                                SizedBox(height: 5.v),
+                                _buildFrame4(),
+                                SizedBox(height: 26.v),
+                                Align(
                                   alignment: Alignment.center,
                                   child: Container(
                                       margin:
@@ -267,18 +264,41 @@ class BankKycScreen extends GetWidget<BankKycController> {
                                           .copyWith(
                                               borderRadius: BorderRadiusStyle
                                                   .roundedBorder20),
-                                      child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text("msg_upload_your_any".tr,
-                                                style: CustomTextStyles
-                                                    .bodySmallPoppinsGray60001),
-                                            SizedBox(height: 9.v),
-                                            _buildFrame5()
-                                          ]))),
-                              SizedBox(height: 37.v),
-                              _buildFrame6()
-                            ])),
+                                      child: Obx(
+                                        () => controller.pickedImage.value ==
+                                                null
+                                            ? Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                    Text(
+                                                        "msg_upload_your_any"
+                                                            .tr,
+                                                        style: CustomTextStyles
+                                                            .bodySmallPoppinsGray60001),
+                                                    SizedBox(height: 9.v),
+                                                    _buildFrame5(context)
+                                                  ])
+                                            : Container(
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      theme.colorScheme.primary,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                height: 120.adaptSize,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: Image.file(
+                                                  controller.pickedImage.value!,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                      )),
+                                ),
+                                SizedBox(height: 37.v),
+                                _buildFrame6()
+                              ])),
+                    ),
                     SizedBox(height: 5.v)
                   ])),
             )));
@@ -302,58 +322,117 @@ class BankKycScreen extends GetWidget<BankKycController> {
   /// Section Widget
   Widget _buildFrame() {
     return Padding(
-        padding: EdgeInsets.only(left: 1.h, right: 60.h),
-        child: CustomTextFormField(controller: controller.frameController));
+        padding: EdgeInsets.only(left: 1.h),
+        child: CustomTextFormField(
+          validator: (value) {
+            if (!isValidAccountNumber(value, isRequired: true)) {
+              return 'Please enter a valid Aadhar number';
+            }
+            return null;
+          },
+          controller: controller.frameController,
+          textInputAction: TextInputAction.next,
+          textInputType:
+              TextInputType.numberWithOptions(decimal: false, signed: false),
+        ));
   }
 
   /// Section Widget
   Widget _buildFrame1() {
     return Padding(
-        padding: EdgeInsets.only(left: 1.h, right: 60.h),
-        child: CustomTextFormField(controller: controller.frameController1));
+        padding: EdgeInsets.only(left: 1.h),
+        child: CustomTextFormField(
+          validator: (value) {
+            String? originalAccountNumber = controller.frameController1.text;
+            return validateConfirmAccountNumber(originalAccountNumber, value);
+          },
+          controller: controller.frameController1,
+          textInputAction: TextInputAction.next,
+          textInputType:
+              TextInputType.numberWithOptions(decimal: false, signed: false),
+        ));
   }
 
   /// Section Widget
   Widget _buildFrame2() {
     return Padding(
-        padding: EdgeInsets.only(left: 1.h, right: 60.h),
-        child: CustomTextFormField(controller: controller.frameController2));
+        padding: EdgeInsets.only(
+          left: 1.h,
+        ),
+        child: CustomTextFormField(
+          validator: (value) {
+            if (!isText(value, isRequired: true)) {
+              return 'Please enter a valid Ifsc code';
+            }
+            return null;
+          },
+          controller: controller.frameController2,
+          textInputAction: TextInputAction.next,
+          textInputType: TextInputType.text,
+        ));
   }
 
   /// Section Widget
   Widget _buildFrame3() {
     return Padding(
-        padding: EdgeInsets.only(left: 1.h, right: 60.h),
-        child: CustomTextFormField(controller: controller.frameController3));
+        padding: EdgeInsets.only(left: 1.h),
+        child: CustomTextFormField(
+          validator: (value) {
+            if (!isValidIFSC(value, isRequired: true)) {
+              return 'Please enter a valid Ifsc code';
+            }
+            return null;
+          },
+          controller: controller.frameController3,
+          textInputAction: TextInputAction.next,
+          textInputType: TextInputType.text,
+        ));
   }
 
   /// Section Widget
   Widget _buildFrame4() {
     return Padding(
-        padding: EdgeInsets.only(left: 1.h, right: 60.h),
-        child: CustomTextFormField(
-            controller: controller.frameController4,
-            textInputAction: TextInputAction.done,
-            suffix: Container(
-                margin: EdgeInsets.symmetric(horizontal: 6.h, vertical: 7.v),
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(1.h)),
-                child: CustomImageView(
-                    imagePath: ImageConstant.imgMobile,
-                    height: 13.v,
-                    width: 15.h)),
-            suffixConstraints: BoxConstraints(maxHeight: 29.v)));
+      padding: EdgeInsets.only(left: 1.h),
+      child: CustomDropDown(
+        textStyle: CustomTextStyles.titleSmallBlack900,
+        hintStyle: CustomTextStyles.titleSmallBlack900,
+        icon: Container(
+            // margin: EdgeInsets.fromLTRB(30.h, 0.v, 19.h, 18.v),
+            child: CustomImageView(
+                imagePath: ImageConstant.imgCheckmarkPrimary15x15,
+                color: appTheme.black900,
+                height: 25.adaptSize,
+                width: 25.adaptSize)),
+        hintText: "lbl_bank".tr,
+        items: controller.bankKycModelObj.value.dropdownItemList!.value,
+        onChanged: (value) {
+          controller.onSelected(value);
+        },
+      ),
+    );
   }
 
   /// Section Widget
-  Widget _buildFrame5() {
-    return CustomOutlinedButton(width: 106.h, text: "lbl_upload".tr);
+  Widget _buildFrame5(BuildContext context) {
+    return CustomOutlinedButton(
+      width: 106.h,
+      text: "lbl_upload".tr,
+      onPressed: () {
+        controller.pickingImage(context);
+      },
+    );
   }
 
   /// Section Widget
   Widget _buildFrame6() {
-    return CustomElevatedButton(
+    return Obx(() => CustomElevatedButton(
+        isDisabled: controller.pickedImage.value == null ||
+            controller.frameController.text.isEmpty ||
+            controller.frameController1.text.isEmpty ||
+            controller.frameController2.text.isEmpty ||
+            controller.frameController3.text.isEmpty,
         height: 33.v,
+        loading: controller.loading.value,
         text: "lbl_submit".tr,
         margin: EdgeInsets.only(left: 11.h, right: 16.h),
         buttonTextStyle:
@@ -361,18 +440,16 @@ class BankKycScreen extends GetWidget<BankKycController> {
         onPressed: () {
           onTapFrame();
         },
-        alignment: Alignment.center);
+        alignment: Alignment.center));
   }
 
-  /// Navigates to the previous screen.
   onTapArrowLeft() {
     Get.back();
   }
 
-  /// Navigates to the picVerificationScreen when the action is triggered.
   onTapFrame() {
-    Get.toNamed(
-      AppRoutes.picVerificationScreen,
-    );
+    if (controller.formKey.currentState!.validate()) {
+      controller.uploadBankDetails();
+    }
   }
 }

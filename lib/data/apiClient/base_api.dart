@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -15,28 +16,36 @@ abstract class BaseApiServices {
 class NetworkApiServices extends BaseApiServices {
   @override
   Future<dynamic> getApi(String url, String token) async {
-    // TODO: implement getApi
-
     if (kDebugMode) {
       print(url);
     }
 
     Map<String, String> requestHeaders = {
-      "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json; charset=utf-8",
+      "Content-Type": "application/json",
+      "Accept": "application/json",
       "Authorization": "Bearer $token",
     };
+
     try {
       final response = await http
           .get(Uri.parse(url), headers: requestHeaders)
           .timeout(const Duration(seconds: 10));
 
-      // return json.decode(response.body);
-      var responseJson = json.decode(utf8.decode(response.bodyBytes));
-      print("Raw API Response: ${responseJson}");
-      return responseJson;
+      if (response.statusCode == 200) {
+        var responseJson = json.decode(response.body);
+        print("Raw API Response: ${responseJson}");
+        return responseJson;
+      } else {
+        // Handle non-200 responses
+        throw HttpException(
+            'Failed to load data, status code: ${response.statusCode}');
+      }
     } on SocketException {
-      throw InternetException();
+      throw InternetException('No Internet connection');
+    } on TimeoutException {
+      throw TimeoutException('The connection has timed out, please try again');
+    } on FormatException {
+      throw FormatException('Invalid response format');
     }
   }
 

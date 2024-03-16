@@ -7,64 +7,66 @@ import 'package:fresh_mandi/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as fs;
 
-class ActivityPageScreen extends GetWidget<ActivityPageController> {
-  const ActivityPageScreen({Key? key}) : super(key: key);
+class ActivityPageScreen extends StatefulWidget {
+  ActivityPageScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ActivityPageScreen> createState() => _ActivityPageScreenState();
+}
+
+class _ActivityPageScreenState extends State<ActivityPageScreen> {
+  final activityController = Get.put(ActivityPageController());
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: _buildAppBar(),
-            body: Container(
-                width: double.maxFinite,
-                padding: EdgeInsets.symmetric(horizontal: 18.h, vertical: 10.v),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("lbl_my_activity".tr,
-                          textAlign: TextAlign.center,
-                          style: CustomTextStyles.titleLargePoppinsPrimary),
-                      SizedBox(height: 22.v),
-                      Padding(
-                          padding: EdgeInsets.only(left: 10.h),
-                          child: Text("lbl_net_sale".tr,
-                              style: theme.textTheme.labelLarge)),
-                      SizedBox(height: 6.v),
-                      Padding(
-                          padding: EdgeInsets.only(left: 10.h),
-                          child: Text("lbl_1038_65".tr,
-                              style: CustomTextStyles
-                                  .titleMediumPrimaryExtraBold)),
-                      SizedBox(height: 41.v),
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: Text("lbl_150_65".tr,
-                              style:
-                                  CustomTextStyles.labelMediumRalewayPrimary)),
-                      SizedBox(height: 5.v),
-                      _buildVectorEleven(),
-                      Align(
-                          alignment: Alignment.center,
-                          child: Divider(
-                              color: appTheme.gray200,
-                              indent: 10.h,
-                              endIndent: 11.h)),
-                      SizedBox(height: 4.v),
-                      _buildLabel(),
-                      Spacer(flex: 50),
-                      CustomElevatedButton(
-                          text: "lbl_sell_here".tr,
-                          margin: EdgeInsets.only(left: 29.h, right: 15.h),
-                          buttonStyle: CustomButtonStyles.fillPrimaryTL30,
-                          buttonTextStyle: CustomTextStyles
-                              .titleMediumPoppinsOnErrorContainer,
-                          onPressed: () {
-                            onTapSellHere();
-                          },
-                          alignment: Alignment.center),
-                      Spacer(flex: 49)
-                    ])),
-            bottomNavigationBar: _buildBottomNavigation()));
+      appBar: _buildAppBar(),
+      body: Container(
+          width: double.maxFinite,
+          padding: EdgeInsets.symmetric(horizontal: 18.h, vertical: 10.v),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text("lbl_my_activity".tr,
+                textAlign: TextAlign.center,
+                style: CustomTextStyles.titleLargePoppinsPrimary),
+            SizedBox(height: 22.v),
+            Padding(
+                padding: EdgeInsets.only(left: 10.h),
+                child:
+                    Text("lbl_net_sale".tr, style: theme.textTheme.labelLarge)),
+            SizedBox(height: 6.v),
+            Padding(
+                padding: EdgeInsets.only(left: 10.h),
+                child: Text("lbl_1038_65".tr,
+                    style: CustomTextStyles.titleMediumPrimaryExtraBold)),
+            SizedBox(height: 41.v),
+            Align(
+                alignment: Alignment.centerRight,
+                child: Text("lbl_150_65".tr,
+                    style: CustomTextStyles.labelMediumRalewayPrimary)),
+            SizedBox(height: 5.v),
+            _buildVectorEleven(),
+            Align(
+                alignment: Alignment.center,
+                child: Divider(
+                    color: appTheme.gray200, indent: 10.h, endIndent: 11.h)),
+            SizedBox(height: 4.v),
+            _buildLabel(),
+            Spacer(flex: 50),
+            CustomElevatedButton(
+                text: "lbl_sell_here".tr,
+                margin: EdgeInsets.only(left: 29.h, right: 15.h),
+                buttonStyle: CustomButtonStyles.fillPrimaryTL30,
+                buttonTextStyle:
+                    CustomTextStyles.titleMediumPoppinsOnErrorContainer,
+                onPressed: () {
+                  onTapSellHere();
+                },
+                alignment: Alignment.center),
+            Spacer(flex: 49)
+          ])),
+    ));
   }
 
   /// Section Widget
@@ -166,39 +168,6 @@ class ActivityPageScreen extends GetWidget<ActivityPageController> {
           Text("lbl_9".tr, style: theme.textTheme.labelLarge),
           Spacer(flex: 47),
           Text("lbl_15".tr, style: theme.textTheme.labelLarge)
-        ]));
-  }
-
-  /// Section Widget
-  Widget _buildBottomNavigation() {
-    return Padding(
-        padding: EdgeInsets.only(left: 88.h, right: 5.h, bottom: 10.v),
-        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          Container(
-              height: 24.adaptSize,
-              width: 24.adaptSize,
-              margin: EdgeInsets.symmetric(vertical: 20.v),
-              decoration: AppDecoration.white
-                  .copyWith(borderRadius: BorderRadiusStyle.customBorderTL12),
-              child: CustomImageView(
-                  imagePath: ImageConstant.imgFilledHome,
-                  height: 24.adaptSize,
-                  width: 24.adaptSize,
-                  alignment: Alignment.center)),
-          Container(
-              height: 64.v,
-              width: 180.h,
-              margin: EdgeInsets.only(left: 78.h),
-              padding: EdgeInsets.symmetric(vertical: 20.v),
-              decoration: AppDecoration.white,
-              child: CustomImageView(
-                  imagePath: ImageConstant.imgOutlinedGraph,
-                  height: 24.adaptSize,
-                  width: 24.adaptSize,
-                  alignment: Alignment.center,
-                  onTap: () {
-                    onTapImgOutlinedGraph();
-                  }))
         ]));
   }
 

@@ -44,8 +44,7 @@ final Map<String, String> enUs = {
   "lbl_98_00": "+91******8700",
   "lbl_send_again": "Send Again",
   "lbl_Send_otp": "Recover",
-  "msg_enter_4_digits_code":
-      "Enter 4-digits code we sent you on your phone number ",
+  "msg_enter_4_digits_code": "Enter 4-digits code we sent have you ",
 
   // 09 New Password Screen
   "lbl_repeat_password": "Repeat Password",
@@ -142,22 +141,6 @@ final Map<String, String> enUs = {
   "lbl_settings": "Settings",
 
   // 25 Sold Veggies Screen
-  "lbl_price_1275": "price: ₹1275",
-  "lbl_price_16_800": "price: ₹16,800",
-  "lbl_price_18_000": "price: ₹18,000",
-  "lbl_price_25000": "price: ₹25000",
-  "lbl_price_7_200": "price: ₹7,200",
-  "lbl_price_8190": "price: ₹8190",
-  "lbl_price_87_500": "price: ₹87,500",
-  "lbl_price_91_200": "price: ₹91,200",
-  "lbl_qty_10_quintal": "qty: 10 quintal",
-  "lbl_qty_12_quintal": "qty: 12 quintal",
-  "lbl_qty_1_quintal": "qty: 1 quintal",
-  "lbl_qty_2_quintal": "qty: 2 quintal",
-  "lbl_qty_2_ton": "qty: 2 ton",
-  "lbl_qty_5_ton": "qty: 5 Ton",
-  "lbl_qty_6_quintal": "qty: 6 quintal",
-  "lbl_qty_7_quintal": "qty: 7 quintal",
   "lbl_sold_vegies": "Sold Vegies",
 
   // 26 Sell Veggies Screen
@@ -171,6 +154,7 @@ final Map<String, String> enUs = {
   "lbl_mandi_name": "Mandi Name",
   "lbl_price": "Price",
   "lbl_quality": "Quality",
+  "lbl_bank": "Account Type",
   "lbl_quantity": "Quantity",
   "msg_distance_from_mandi": "Distance From Mandi",
   "msg_upload_pictures": "Upload Pictures Of Product",

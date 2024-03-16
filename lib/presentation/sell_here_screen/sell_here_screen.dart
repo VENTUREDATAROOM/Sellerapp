@@ -1,3 +1,6 @@
+import 'package:fresh_mandi/presentation/sell_here_screen/models/sell_here_model.dart';
+import 'package:fresh_mandi/widgets/base64.dart';
+
 import 'controller/sell_here_controller.dart';
 import 'package:fresh_mandi/core/app_export.dart';
 import 'package:fresh_mandi/core/utils/validation_functions.dart';
@@ -104,13 +107,20 @@ class SellHereScreen extends GetWidget<SellHereController> {
                   decoration: BoxDecoration(
                       color: appTheme.whiteA700,
                       borderRadius: BorderRadius.circular(24.h)))),
-          CustomImageView(
-              imagePath: ImageConstant.imgRedChilli230x231,
-              height: 230.v,
-              width: 231.h,
-              radius: BorderRadius.circular(24.h),
-              alignment: Alignment.topLeft,
-              margin: EdgeInsets.only(left: 27.h))
+          Center(
+            child: Base64Image(
+              base64String: controller.imageUrl,
+              imageHeight: 231.h,
+              imageWidth: 231.h,
+            ),
+          ),
+          // CustomImageView(
+          //     imagePath: ImageConstant.imgRedChilli230x231,
+          //     height: 230.v,
+          //     width: 231.h,
+          //     radius: BorderRadius.circular(24.h),
+          //     alignment: Alignment.topLeft,
+          //     margin: EdgeInsets.only(left: 27.h))
         ]));
   }
 
@@ -119,8 +129,11 @@ class SellHereScreen extends GetWidget<SellHereController> {
     return Padding(
         padding: EdgeInsets.only(left: 7.h, right: 5.h),
         child: CustomTextFormField(
-            controller: controller.redChilliController,
-            hintText: "lbl_red_chilli".tr));
+          controller: controller.redChilliController,
+          readOnly: true,
+          hintText: controller.name,
+          hintStyle: TextStyle(color: theme.primaryColor),
+        ));
   }
 
   /// Section Widget
@@ -201,15 +214,32 @@ class SellHereScreen extends GetWidget<SellHereController> {
                 Container(
                     height: 90.adaptSize,
                     width: 90.adaptSize,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 26.h, vertical: 29.v),
+                    // padding:
+                    //     EdgeInsets.symmetric(horizontal: 26.h, vertical: 29.v),
                     decoration: AppDecoration.outlinePrimary.copyWith(
                         borderRadius: BorderRadiusStyle.circleBorder45),
-                    child: CustomImageView(
-                        imagePath: ImageConstant.imgCameraIcon,
-                        height: 27.v,
-                        width: 34.h,
-                        alignment: Alignment.center)),
+                    child: Obx(
+                      () => controller.pickedImage.value == null
+                          ? CustomImageView(
+                              imagePath: ImageConstant.imgCameraIcon,
+                              color: theme.primaryColor,
+                              height: 90.v,
+                              width: 90.h,
+                              alignment: Alignment.center,
+                              onTap: () {
+                                controller.pickImage1();
+                              },
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(60.0),
+                              child: Image.file(
+                                controller.pickedImage.value!,
+                                height: 120.adaptSize,
+                                width: 120.adaptSize,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                    )),
                 SizedBox(height: 7.v),
                 Text("lbl_image_1".tr,
                     style: CustomTextStyles.labelLargeNunitoSansBlack900)
@@ -223,33 +253,71 @@ class SellHereScreen extends GetWidget<SellHereController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                  height: 90.adaptSize,
-                                  width: 90.adaptSize,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 26.h, vertical: 29.v),
-                                  decoration: AppDecoration.outlinePrimary
-                                      .copyWith(
-                                          borderRadius:
-                                              BorderRadiusStyle.circleBorder45),
-                                  child: CustomImageView(
-                                      imagePath: ImageConstant.imgCameraIcon,
-                                      height: 27.v,
-                                      width: 34.h,
-                                      alignment: Alignment.center)),
+                                height: 90.adaptSize,
+                                width: 90.adaptSize,
+                                // padding: EdgeInsets.symmetric(
+                                //     horizontal: 26.h, vertical: 29.v),
+                                decoration: AppDecoration.outlinePrimary
+                                    .copyWith(
+                                        borderRadius:
+                                            BorderRadiusStyle.circleBorder45),
+                                child: Obx(
+                                    () => controller.pickedImage2.value == null
+                                        ? CustomImageView(
+                                            imagePath:
+                                                ImageConstant.imgCameraIcon,
+                                            color: theme.primaryColor,
+                                            height: 90.v,
+                                            width: 90.h,
+                                            alignment: Alignment.center,
+                                            onTap: () {
+                                              controller.pickImage2();
+                                            },
+                                          )
+                                        : ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(60.0),
+                                            child: Image.file(
+                                              controller.pickedImage2.value!,
+                                              height: 120.adaptSize,
+                                              width: 120.adaptSize,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          )),
+                              ),
                               Container(
-                                  height: 90.adaptSize,
-                                  width: 90.adaptSize,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 26.h, vertical: 29.v),
-                                  decoration: AppDecoration.outlinePrimary
-                                      .copyWith(
-                                          borderRadius:
-                                              BorderRadiusStyle.circleBorder45),
-                                  child: CustomImageView(
-                                      imagePath: ImageConstant.imgCameraIcon,
-                                      height: 27.v,
-                                      width: 34.h,
-                                      alignment: Alignment.center))
+                                height: 90.adaptSize,
+                                width: 90.adaptSize,
+                                // padding: EdgeInsets.symmetric(
+                                //     horizontal: 26.h, vertical: 29.v),
+                                decoration: AppDecoration.outlinePrimary
+                                    .copyWith(
+                                        borderRadius:
+                                            BorderRadiusStyle.circleBorder45),
+                                child: Obx(
+                                    () => controller.pickedImage3.value == null
+                                        ? CustomImageView(
+                                            imagePath:
+                                                ImageConstant.imgCameraIcon,
+                                            color: theme.primaryColor,
+                                            height: 90.adaptSize,
+                                            width: 90.adaptSize,
+                                            alignment: Alignment.center,
+                                            onTap: () {
+                                              controller.pickImage3();
+                                            },
+                                          )
+                                        : ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(60.0),
+                                            child: Image.file(
+                                              controller.pickedImage3.value!,
+                                              height: 120.adaptSize,
+                                              width: 120.adaptSize,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          )),
+                              )
                             ])),
                     SizedBox(height: 7.v),
                     Container(
@@ -287,8 +355,6 @@ class SellHereScreen extends GetWidget<SellHereController> {
 
   /// Navigates to the driverDetailsScreen when the action is triggered.
   onTapSubmit() {
-    Get.toNamed(
-      AppRoutes.driverDetailsScreen,
-    );
+    controller.sellHereDetails();
   }
 }

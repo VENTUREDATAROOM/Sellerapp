@@ -172,7 +172,7 @@ class StartScreen extends GetWidget<StartController> {
   /// Navigate to Login Screen on tap
   onTapArrowalreadyHaveAccount() {
     Get.toNamed(
-      AppRoutes.aadharKycScreen,
+      AppRoutes.loginScreen,
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 import 'controller/login_controller.dart';
 import 'package:fresh_mandi/core/app_export.dart';
 import 'package:fresh_mandi/core/utils/validation_functions.dart';
@@ -129,11 +131,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(height: 56.v),
-                      CustomElevatedButton(
+                      Obx(() => CustomElevatedButton(
                           text: "lbl_next".tr,
+                          loading: loginController.loading.value,
+                          isDisabled: loginController
+                                  .mobileController.value.text.isEmpty ||
+                              loginController
+                                  .passwordController.value.text.isEmpty,
                           onPressed: () {
                             onTapNext();
-                          }),
+                          })),
                       SizedBox(height: 16.v),
                       Opacity(
                         opacity: 0.9,

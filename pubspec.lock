@@ -129,6 +129,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  curved_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: curved_navigation_bar
+      sha256: ea6412d00c5d83501bbf1cf9d1ac2ff11a20fbaf910c103c95ace7de82910334
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   dbus:
     dependency: transitive
     description:
@@ -153,6 +161,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  fancy_bottom_navigation_plus:
+    dependency: "direct main"
+    description:
+      name: fancy_bottom_navigation_plus
+      sha256: "2fb7d5d29a9c77a48a90445c1faf891417bdf5265a9e632b97d2c1e2499ed78a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   ffi:
     dependency: transitive
     description:

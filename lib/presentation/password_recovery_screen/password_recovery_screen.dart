@@ -1,10 +1,8 @@
-import 'package:flutter/widgets.dart';
 
 import '../../core/utils/validation_functions.dart';
 import '../../widgets/custom_text_form_field.dart';
 import '../password_recovery_screen/widgets/smscomponentlist_item_widget.dart';
 import 'controller/password_recovery_controller.dart';
-import 'models/smscomponentlist_item_model.dart';
 import 'package:fresh_mandi/core/app_export.dart';
 import 'package:fresh_mandi/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +58,6 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
             ])));
   }
 
-  /// Section Widget
   Widget _buildPasswordRecoveryColumn() {
     return Align(
         alignment: Alignment.centerRight,
@@ -89,18 +86,15 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
             ])));
   }
 
-  /// Section Widget
   Widget _buildSmsComponentList() {
     return SmscomponentlistItemWidget(
       onSmsTap: () {
         print("SMS tapped");
-        // Handle SMS tap
         Controller.isSmsTapped.value = true;
         Controller.isEmailTapped.value = false;
       },
       onEmailTap: () {
         print("Email tapped");
-        // Handle Email tap
         Controller.isEmailTapped.value = true;
         Controller.isSmsTapped.value = false;
       },
@@ -109,7 +103,6 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
 
   void onTapNext(BuildContext context) {
     if (Controller.isSmsTapped.value) {
-      // If SMS was tapped, show the bottom sheet for phone number input
       showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -125,8 +118,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
                 stops: <double>[0, 1],
               ),
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(
-                    20.0), // Adjust the radius and multiplication factor as needed
+                topLeft: Radius.circular(20.0),
                 topRight: Radius.circular(20.0),
               ),
             ),
@@ -157,9 +149,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
                     text: "lbl_Send_otp".tr,
                     buttonStyle: CustomButtonStyles.fillOrange,
                     onPressed: () {
-                      Get.toNamed(
-                        AppRoutes.passwordRecoveryCodeScreen,
-                      );
+                      Controller.verifyByPhone(context);
                     },
                   ),
                 ),
@@ -169,7 +159,6 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
         },
       );
     } else if (Controller.isEmailTapped.value) {
-      // If Email was tapped, show the bottom sheet for Email input
       showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -215,9 +204,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
                     text: "lbl_Send_otp".tr,
                     buttonStyle: CustomButtonStyles.fillOrange,
                     onPressed: () {
-                      Get.toNamed(
-                        AppRoutes.passwordRecoveryCodeScreen,
-                      );
+                      Controller.verifyByEmail(context);
                     },
                   ),
                 ),
@@ -227,14 +214,12 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
         },
       );
     } else {
-      // If SMS was not tapped, proceed to the next screen
       Get.toNamed(
         AppRoutes.loginScreen,
       );
     }
   }
 
-  /// Navigates to the passwordScreen when the action is triggered.
   onTapTxtTitle() {
     Get.back();
   }

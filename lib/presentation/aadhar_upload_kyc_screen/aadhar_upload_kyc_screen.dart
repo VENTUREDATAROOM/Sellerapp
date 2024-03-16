@@ -1,4 +1,6 @@
+import 'package:fresh_mandi/presentation/aadhar_kyc_screen/controller/aadhar_kyc_controller.dart';
 import 'package:fresh_mandi/widgets/custom_checkbox.dart';
+import 'package:get/get.dart';
 
 import 'controller/aadhar_upload_kyc_controller.dart';
 import 'package:fresh_mandi/core/app_export.dart';
@@ -11,9 +13,17 @@ import 'package:another_stepper/dto/stepper_data.dart';
 import 'package:another_stepper/widgets/another_stepper.dart';
 import 'package:flutter/material.dart';
 
-class AadharUploadKycScreen extends GetWidget<AadharUploadKycController> {
+class AadharUploadKycScreen extends StatefulWidget {
   AadharUploadKycScreen({Key? key}) : super(key: key);
-  bool _isChecked = false;
+
+  @override
+  State<AadharUploadKycScreen> createState() => _AadharUploadKycScreenState();
+}
+
+class _AadharUploadKycScreenState extends State<AadharUploadKycScreen> {
+  AadharKycController aadharController = Get.find();
+  RxBool _isChecked = false.obs;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -204,29 +214,50 @@ class AadharUploadKycScreen extends GetWidget<AadharUploadKycController> {
                             decoration: AppDecoration.outlinePrimary3.copyWith(
                                 borderRadius:
                                     BorderRadiusStyle.roundedBorder20),
-                            child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(height: 6.v),
-                                  Text("msg_upload_your_aadhaar".tr,
-                                      style: CustomTextStyles
-                                          .bodySmallPoppinsGray60001),
-                                  SizedBox(height: 13.v),
-                                  CustomOutlinedButton(
-                                      width: 106.h, text: "lbl_upload".tr)
-                                ])),
-                        SizedBox(height: 99.v),
+                            child: Obx(
+                              () => aadharController.pickedImage2.value == null
+                                  ? Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                          SizedBox(height: 6.v),
+                                          Text("msg_upload_your_aadhaar".tr,
+                                              style: CustomTextStyles
+                                                  .bodySmallPoppinsGray60001),
+                                          SizedBox(height: 13.v),
+                                          CustomOutlinedButton(
+                                            width: 106.h,
+                                            text: "lbl_upload".tr,
+                                            onPressed: () {
+                                              aadharController
+                                                  .pickingImage2(context);
+                                            },
+                                          )
+                                        ])
+                                  : Container(
+                                      decoration: BoxDecoration(
+                                        color: theme.colorScheme.primary,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      height: 120.adaptSize,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Image.file(
+                                        aadharController.pickedImage2.value!,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                            )),
+                        SizedBox(height: 74.v),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CustomCheckbox(
-                                  isChecked: _isChecked,
+                              Obx(() => CustomCheckbox(
+                                  isChecked: _isChecked.value,
                                   inactiveColor: Colors.grey.shade100,
                                   activeColor: theme.primaryColor,
                                   onTap: (value) {
-                                    _isChecked = value!;
-                                  }),
+                                    _isChecked.value = value;
+                                  })),
                               Expanded(
                                   child: Container(
                                       width: 262.h,
@@ -239,15 +270,18 @@ class AadharUploadKycScreen extends GetWidget<AadharUploadKycController> {
                                               .copyWith(height: 2.10))))
                             ]),
                         SizedBox(height: 28.v),
-                        CustomElevatedButton(
+                        Obx(() => CustomElevatedButton(
                             height: 33.v,
                             text: "lbl_submit".tr,
                             margin: EdgeInsets.only(left: 15.h, right: 20.h),
                             buttonTextStyle: CustomTextStyles
                                 .titleMediumInterOnErrorContainerMedium,
+                            isDisabled: !_isChecked.value ||
+                                aadharController.pickedImage2.value == null,
+                                loading: aadharController.loading.value,
                             onPressed: () {
                               onTapSubmit();
-                            }),
+                            })),
                         SizedBox(height: 30.v),
                         Container(
                             width: 242.h,
@@ -284,33 +318,6 @@ class AadharUploadKycScreen extends GetWidget<AadharUploadKycController> {
         title: AppbarSubtitleOne(text: "lbl_kyc".tr.toUpperCase()));
   }
 
-  /// Common widget
-  Widget _buildFrame({
-    required String dynamicText,
-    required String profilePicText,
-  }) {
-    return Column(children: [
-      Container(
-          width: 32.adaptSize,
-          padding: EdgeInsets.symmetric(horizontal: 10.h, vertical: 5.v),
-          decoration: AppDecoration.outlinePrimary2
-              .copyWith(borderRadius: BorderRadiusStyle.circleBorder16),
-          child: Text(dynamicText,
-              style: CustomTextStyles.bodyLargeInterPrimary.copyWith(
-                  color: theme.colorScheme.primary.withOpacity(0.65)))),
-      SizedBox(height: 4.v),
-      SizedBox(
-          width: 31.h,
-          child: Text(profilePicText,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: CustomTextStyles.bodySmallPrimary_1.copyWith(
-                  color: theme.colorScheme.primary.withOpacity(0.54),
-                  height: 1.20)))
-    ]);
-  }
-
   /// Navigates to the previous screen.
   onTapArrowLeft() {
     Get.back();
@@ -318,8 +325,6 @@ class AadharUploadKycScreen extends GetWidget<AadharUploadKycController> {
 
   /// Navigates to the panKycScreen when the action is triggered.
   onTapSubmit() {
-    Get.toNamed(
-      AppRoutes.panKycScreen,
-    );
+    aadharController.uploadAadharCardDetails();
   }
 }

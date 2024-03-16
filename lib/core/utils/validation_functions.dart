@@ -1,4 +1,3 @@
-/// Checks if string consist only Alphabet. (No Whitespace)
 bool isText(
   String? inputString, {
   bool isRequired = false,
@@ -10,7 +9,8 @@ bool isText(
   }
 
   if (inputString != null && inputString.isNotEmpty) {
-    const pattern = r'^[a-zA-Z]+$';
+    // Allows alphabetic characters and spaces, but not only spaces
+    const pattern = r'^[a-zA-Z]+( [a-zA-Z]+)*$';
 
     final regExp = RegExp(pattern);
 
@@ -117,3 +117,91 @@ bool isValidPhone(
 
   return isInputStringValid;
 }
+
+bool isValidAadharNumber(String? inputString, {bool isRequired = false}) {
+  bool isInputStringValid = false;
+
+  if (!isRequired && (inputString == null || inputString.isEmpty)) {
+    isInputStringValid = true;
+  }
+
+  if (inputString != null && inputString.isNotEmpty) {
+    const pattern = r'^\d{12}$';
+
+    final regExp = RegExp(pattern);
+
+    isInputStringValid = regExp.hasMatch(inputString);
+  }
+
+  return isInputStringValid;
+}
+
+bool isValidPAN(String? inputString, {bool isRequired = false}) {
+  bool isInputStringValid = false;
+
+  if (!isRequired && (inputString == null || inputString.isEmpty)) {
+    isInputStringValid = true;
+  }
+
+  if (inputString != null && inputString.isNotEmpty) {
+    const pattern = r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$';
+
+    final regExp = RegExp(pattern);
+
+    isInputStringValid = regExp.hasMatch(inputString);
+  }
+
+  return isInputStringValid;
+}
+
+bool isValidAccountNumber(String? inputString, {bool isRequired = false}) {
+  bool isInputStringValid = false;
+
+  if (!isRequired && (inputString == null || inputString.isEmpty)) {
+    isInputStringValid = true;
+  }
+
+  if (inputString != null && inputString.isNotEmpty) {
+    const pattern = r'^\d{9,17}$';
+
+    final regExp = RegExp(pattern);
+
+    isInputStringValid = regExp.hasMatch(inputString);
+  }
+
+  return isInputStringValid;
+}
+
+
+bool isValidIFSC(String? inputString, {bool isRequired = false}) {
+  bool isInputStringValid = false;
+
+  if (!isRequired && (inputString == null || inputString.isEmpty)) {
+    isInputStringValid = true;
+  }
+
+  if (inputString != null && inputString.isNotEmpty) {
+    const pattern = r'^[A-Z]{4}0[A-Z0-9]{6}$';
+
+    final regExp = RegExp(pattern);
+
+    isInputStringValid = regExp.hasMatch(inputString);
+  }
+
+  return isInputStringValid;
+}
+
+
+String? validateConfirmAccountNumber(String? originalAccountNumber, String? confirmAccountNumber) {
+  if (confirmAccountNumber == null || confirmAccountNumber.isEmpty) {
+    return 'Confirm account number is required';
+  }
+
+  if (originalAccountNumber != confirmAccountNumber) {
+    return 'Account numbers do not match';
+  }
+
+  // If everything is fine, return null
+  return null;
+}
+

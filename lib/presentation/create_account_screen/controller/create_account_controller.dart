@@ -58,8 +58,8 @@ class CreateAccountController extends GetxController {
   }
 
   void registerApi() async {
-    print("IMAGE FILE " + imageFile);
     loading.value = true;
+    print("IMAGE FILE " + imageFile);
 
     var uri = Uri.parse(AppUrl.registerUrl);
     var request = http.MultipartRequest("POST", uri);
@@ -80,39 +80,51 @@ class CreateAccountController extends GetxController {
 
     var response = await request.send();
     print(response);
-    if (response.statusCode == 200) {
-      // Handle successful response
+    try {
+      if (response.statusCode == 200) {
+        // Handle successful response
 
-      var responseBody = await response.stream.bytesToString();
+        var responseBody = await response.stream.bytesToString();
 
-      print("Signup response json == $responseBody");
-      // Decode the JSON response
-      Map<String, dynamic> data = jsonDecode(responseBody);
-      OneContext().showSnackBar(
-          builder: (context) => ShowSnackBar()
-              .customBar(data['message'], context!, isSuccessPopup: true));
-      if (data[AppConstants.requestCustomCode] == "200") {
-        PreferenceUtils.setString(AppConstants.userId,
-            yourNumberValueController.value.text.toString());
-        PreferenceUtils.setString(
-            AppConstants.password, passwordController.value.text.toString());
-        PreferenceUtils.setString(
-            AppConstants.name, nameController.value.text.toString());
-        PreferenceUtils.setString(
-            AppConstants.email, emailController.value.text.toString());
-        Get.toNamed(AppRoutes.passwordScreen);
+        print("Signup response json == $responseBody");
+        // Decode the JSON response
+        Map<String, dynamic> data = jsonDecode(responseBody);
+        OneContext().showSnackBar(
+            builder: (context) => ShowSnackBar()
+                .customBar(data['message'], context!, isSuccessPopup: true));
+        if (data[AppConstants.requestCustomCode] == "200") {
+          PreferenceUtils.setString(AppConstants.userId,
+              yourNumberValueController.value.text.toString());
+          PreferenceUtils.setString(
+              AppConstants.password, passwordController.value.text.toString());
+          PreferenceUtils.setString(
+              AppConstants.name, nameController.value.text.toString());
+          PreferenceUtils.setString(
+              AppConstants.email, emailController.value.text.toString());
+          PreferenceUtils.setString(
+              AppConstants.profileImage, data['result']['baseImg']);
+          Get.toNamed(AppRoutes.passwordScreen);
+        }
+      } else {
+        // Handle error response
+        var errorBody = await response.stream.bytesToString();
+        print("Error occurred: ${response.statusCode} - ${errorBody}");
+        OneContext().showSnackBar(
+            builder: (context) => ShowSnackBar().customBar(
+                "Error occurred: ${response.statusCode} - ${errorBody}",
+                context!,
+                isSuccessPopup: false));
       }
-    } else {
-      // Handle error response
-      var errorBody = await response.stream.bytesToString();
-      print("Error occurred: ${response.statusCode} - ${errorBody}");
+    } catch (e) {
+      print('An error occurred: $e');
       OneContext().showSnackBar(
           builder: (context) => ShowSnackBar().customBar(
-              "Error occurred: ${response.statusCode} - ${errorBody}", context!,
+              "Ooops!! Something Went Wrong, Please try after sometime",
+              context!,
               isSuccessPopup: false));
+    } finally {
+      loading.value = false;
     }
-
-    loading.value = false;
   }
 
   @override

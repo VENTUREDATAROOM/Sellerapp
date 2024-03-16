@@ -1,22 +1,28 @@
-import 'package:fresh_mandi/data/models/selectionPopupModel/selection_popup_model.dart';
 import '../../../core/app_export.dart';
 
-/// This class defines the variables used in the [sell_here_screen],
-/// and is typically used to hold data that is passed between different parts of the application.
 class SellHereModel {
   Rx<List<SelectionPopupModel>> dropdownItemList = Rx([
     SelectionPopupModel(
       id: 1,
-      title: "Item One",
+      title: "Good",
+      value: "Good", 
       isSelected: true,
     ),
     SelectionPopupModel(
       id: 2,
-      title: "Item Two",
+      title: "Better",
+      value: "Better", 
+    ),
+     SelectionPopupModel(
+      id: 1,
+      title: "Best",
+      value: "Best", 
+      isSelected: true,
     ),
     SelectionPopupModel(
-      id: 3,
-      title: "Item Three",
+      id: 2,
+      title: "Not Good",
+      value: "Not Good", 
     )
   ]);
 }

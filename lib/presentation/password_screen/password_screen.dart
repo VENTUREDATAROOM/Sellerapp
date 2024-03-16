@@ -20,61 +20,74 @@ class _PasswordScreenState extends State<PasswordScreen> {
     return SafeArea(
         child: Scaffold(
             resizeToAvoidBottomInset: false,
-            body: SizedBox(
-                width: double.maxFinite,
-                child: Stack(
-                  children: [
-                    CustomImageView(
-                      imagePath: ImageConstant.imgGroup22,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      height: MediaQuery.of(context).size.height * 0.5,
+            body: passwordController.loading.value
+                ? Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: SizedBox(
+                      height: 150,
+                      width: 150,
+                      child: CircularProgressIndicator(
+                        color: appTheme.lightGreenA70033,
+                      ),
                     ),
-                    Column(children: [
-                      _buildPasswordScreen(),
-                      SizedBox(height: 25.v),
-                      Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 81.h),
-                          child: Obx(() => CustomPinCodeTextField(
-                              context: Get.context!,
-                              controller:
-                                  passwordController.otpController.value,
-                              onChanged: (value) {
-                                passwordController.verifyOtp();
-                              }))),
-                      Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 50),
-                        child: GestureDetector(
-                            onTap: () {
-                              onTapNotYou();
-                            },
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Opacity(
-                                      opacity: 0.9,
-                                      child: Padding(
-                                          padding: EdgeInsets.only(top: 9.v),
-                                          child: Text("lbl_not_you".tr,
-                                              style:
-                                                  theme.textTheme.bodyMedium))),
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 16.h),
-                                      child: CustomIconButton(
-                                          height: 30.adaptSize,
-                                          width: 30.adaptSize,
-                                          padding: EdgeInsets.all(7.h),
-                                          child: CustomImageView(
-                                            imagePath: ImageConstant
-                                                .imgArrowRightOnerrorcontainer,
-                                            color: Colors.white,
-                                          )))
-                                ])),
-                      )
-                    ]),
-                  ],
-                ))));
+                  )
+                : SizedBox(
+                    width: double.maxFinite,
+                    child: Stack(
+                      children: [
+                        CustomImageView(
+                          imagePath: ImageConstant.imgGroup22,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          height: MediaQuery.of(context).size.height * 0.5,
+                        ),
+                        Column(children: [
+                          _buildPasswordScreen(),
+                          SizedBox(height: 25.v),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 81.h),
+                              child: Obx(() => CustomPinCodeTextField(
+                                  context: Get.context!,
+                                  controller:
+                                      passwordController.otpController.value,
+                                  onChanged: (value) {
+                                    passwordController.verifyOtp(context);
+                                  }))),
+                          Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 50),
+                            child: GestureDetector(
+                                onTap: () {
+                                  onTapNotYou();
+                                },
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Opacity(
+                                          opacity: 0.9,
+                                          child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: 9.v),
+                                              child: Text("lbl_not_you".tr,
+                                                  style: theme
+                                                      .textTheme.bodyMedium))),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 16.h),
+                                          child: CustomIconButton(
+                                              height: 30.adaptSize,
+                                              width: 30.adaptSize,
+                                              padding: EdgeInsets.all(7.h),
+                                              child: CustomImageView(
+                                                imagePath: ImageConstant
+                                                    .imgArrowRightOnerrorcontainer,
+                                                color: Colors.white,
+                                              )))
+                                    ])),
+                          )
+                        ]),
+                      ],
+                    ))));
   }
 
   /// Section Widget
@@ -104,22 +117,18 @@ class _PasswordScreenState extends State<PasswordScreen> {
                               height: 91.adaptSize,
                               width: 91.adaptSize,
                               alignment: Alignment.center)
-                          : Container(
-                              width: double.infinity,
-                              margin: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Image.memory(const Base64Decoder()
-                                      .convert(base64Image))),
-                            ),
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(60),
+                              child: Image.memory(
+                                  height: 120.adaptSize,
+                                  width: 120.adaptSize,
+                                  fit: BoxFit.cover,
+                                  const Base64Decoder().convert(base64Image))),
                     ),
                     SizedBox(height: 32.v),
                     Text(
                         "lbl_hello_ajit".tr +
-                            " ${passwordController.profileName}",
+                            " ${passwordController.profileName.split(' ')[0]} !!",
                         textAlign: TextAlign.center,
                         maxLines: 1,
                         style: theme.textTheme.headlineMedium)

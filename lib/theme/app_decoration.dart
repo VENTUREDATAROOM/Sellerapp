@@ -28,7 +28,7 @@ class AppDecoration {
         color: appTheme.lightGreen300Cc,
       );
   static BoxDecoration get fillPrimary => BoxDecoration(
-        color: theme.colorScheme.primary.withOpacity(0.08),
+        color: theme.colorScheme.primary,
       );
   static BoxDecoration get fillRed => BoxDecoration(
         color: appTheme.red100,
@@ -162,6 +162,7 @@ class BorderRadiusStyle {
   // Custom borders
   static BorderRadius get customBorderTL12 => BorderRadius.horizontal(
         left: Radius.circular(12.h),
+        right: Radius.circular(12.h),
       );
 
   // Rounded borders

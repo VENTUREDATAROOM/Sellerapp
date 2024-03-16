@@ -1,8 +1,10 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -87,6 +89,27 @@ class CustomImageView extends StatelessWidget {
   Widget _buildImageView() {
     if (imagePath != null) {
       switch (imagePath!.imageType) {
+        case ImageType.base64:
+          try {
+            final String base64String =
+                imagePath!.substring(imagePath!.indexOf('base64,') + 7);
+            final Uint8List bytes = base64Decode(base64String);
+            return Image.memory(
+              bytes,
+              height: height,
+              width: width,
+              fit: fit ?? BoxFit.cover,
+              color: color,
+            );
+          } catch (e) {
+            // Handle decoding error, maybe return an error image or a placeholder
+            return Image.asset(
+              placeHolder,
+              height: height,
+              width: width,
+              fit: fit ?? BoxFit.cover,
+            );
+          }
         case ImageType.svg:
           return Container(
             height: height,
@@ -153,10 +176,12 @@ extension ImageTypeExtension on String {
       return ImageType.svg;
     } else if (this.startsWith('file://')) {
       return ImageType.file;
+    } else if (this.startsWith('data:image/') && contains('base64,')) {
+      return ImageType.base64;
     } else {
       return ImageType.png;
     }
   }
 }
 
-enum ImageType { svg, png, network, file, unknown }
+enum ImageType { svg, png, network, file, base64, unknown }

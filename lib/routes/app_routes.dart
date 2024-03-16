@@ -1,3 +1,5 @@
+import 'package:fresh_mandi/dashboard/binding/dashboard_binding.dart';
+import 'package:fresh_mandi/dashboard/dashboard.dart';
 import 'package:fresh_mandi/presentation/driver_details_screen/driver_details_screen.dart';
 import 'package:fresh_mandi/presentation/driver_details_screen/binding/driver_details_binding.dart';
 import 'package:fresh_mandi/presentation/splash_screen/splash_screen.dart';
@@ -109,6 +111,8 @@ class AppRoutes {
   static const String settingScreen = '/setting_screen';
 
   static const String soldVeggiesScreen = '/sold_veggies_screen';
+
+  static const String dashboardScreen = '/dashboard';
 
   static const String sellVeggiesScreen = '/sell_veggies_screen';
 
@@ -294,6 +298,13 @@ class AppRoutes {
       page: () => SoldVeggiesScreen(),
       bindings: [
         SoldVeggiesBinding(),
+      ],
+    ),
+    GetPage(
+      name: dashboardScreen,
+      page: () => DashboardPage(),
+      bindings: [
+        DashboardBinding(),
       ],
     ),
     GetPage(

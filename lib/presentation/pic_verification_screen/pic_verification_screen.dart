@@ -9,6 +9,7 @@ import 'package:fresh_mandi/widgets/custom_text_form_field.dart';
 import 'package:another_stepper/dto/stepper_data.dart';
 import 'package:another_stepper/widgets/another_stepper.dart';
 import 'package:flutter/material.dart';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 class PicVerificationScreen extends GetWidget<PicVerificationController> {
   const PicVerificationScreen({Key? key}) : super(key: key);
@@ -63,14 +64,6 @@ class PicVerificationScreen extends GetWidget<PicVerificationController> {
                                                     width: 15.adaptSize,
                                                     alignment:
                                                         Alignment.center))),
-                                        // Align(
-                                        //     alignment: Alignment.centerLeft,
-                                        //     child: Padding(
-                                        //         padding:
-                                        //             EdgeInsets.only(left: 12.h),
-                                        //         child: Text("lbl_1".tr,
-                                        //             style: CustomTextStyles
-                                        //                 .bodyLargeInterOnError)))
                                       ])),
                               Container(
                                   width: 41.h,
@@ -219,19 +212,44 @@ class PicVerificationScreen extends GetWidget<PicVerificationController> {
                                         .copyWith(
                                             borderRadius: BorderRadiusStyle
                                                 .roundedBorder20),
-                                    child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          SizedBox(height: 6.v),
-                                          Text("msg_upload_your_photo".tr,
-                                              style: CustomTextStyles
-                                                  .bodySmallPoppinsGray60001),
-                                          SizedBox(height: 13.v),
-                                          CustomOutlinedButton(
-                                              text: "lbl_upload".tr,
-                                              margin: EdgeInsets.only(
-                                                  left: 6.h, right: 2.h))
-                                        ])),
+                                    child: Obx(
+                                      () => controller.pickedImage.value == null
+                                          ? Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                  SizedBox(height: 6.v),
+                                                  Text(
+                                                      "msg_upload_your_photo"
+                                                          .tr,
+                                                      style: CustomTextStyles
+                                                          .bodySmallPoppinsGray60001),
+                                                  SizedBox(height: 13.v),
+                                                  CustomOutlinedButton(
+                                                    text: "lbl_upload".tr,
+                                                    margin: EdgeInsets.only(
+                                                        left: 6.h, right: 2.h),
+                                                    onPressed: () {
+                                                      controller.pickingImage(
+                                                          context);
+                                                    },
+                                                  )
+                                                ])
+                                          : Container(
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    theme.colorScheme.primary,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              height: 120.adaptSize,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Image.file(
+                                                controller.pickedImage.value!,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                    )),
                                 SizedBox(height: 37.v),
                                 Text("lbl_date_of_birth".tr,
                                     style: theme.textTheme.labelMedium),
@@ -239,9 +257,16 @@ class PicVerificationScreen extends GetWidget<PicVerificationController> {
                                 Padding(
                                     padding: EdgeInsets.only(right: 57.h),
                                     child: CustomTextFormField(
-                                        controller:
-                                            controller.dateOfBirthController,
-                                        textInputAction: TextInputAction.done)),
+                                      controller:
+                                          controller.dateOfBirthController,
+                                      textInputAction: TextInputAction.done,
+                                      suffix: IconButton(
+                                          onPressed: () {
+                                            _selectDate(context);
+                                          },
+                                          icon:
+                                              Icon(Icons.calendar_month_sharp)),
+                                    )),
                                 Spacer(),
                                 CustomElevatedButton(
                                     height: 33.v,
@@ -301,8 +326,56 @@ class PicVerificationScreen extends GetWidget<PicVerificationController> {
 
   /// Navigates to the kycCompleteScreen when the action is triggered.
   onTapSubmit() {
-    Get.toNamed(
-      AppRoutes.kycCompleteScreen,
+    controller.uploadPanCardDetails();
+    // Get.toNamed(
+    //   AppRoutes.kycCompleteScreen,
+    // );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? selectedDate = await showDialog<DateTime>(
+      context: context,
+      builder: (context) => Dialog(
+        child: SizedBox(
+          height: 309,
+          width: double.maxFinite,
+          child: CalendarDatePicker2(
+            config: CalendarDatePicker2Config(
+              calendarType: CalendarDatePicker2Type.single,
+              firstDate: DateTime(DateTime.now().year - 80),
+              lastDate: DateTime(DateTime.now().year + 80),
+              firstDayOfWeek: 0,
+              weekdayLabelTextStyle: TextStyle(
+                color: Colors.blueGrey[900],
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.w700,
+              ),
+              dayTextStyle: TextStyle(
+                color: appTheme.redmono,
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.w600,
+              ),
+              disabledDayTextStyle: TextStyle(
+                color: appTheme.gray100,
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.w600,
+              ),
+              weekdayLabels: ["S", "M", "T", "W", "T", "F", "S"],
+            ),
+            onValueChanged: (List<DateTime?> value) {
+              if (value.isNotEmpty && value.first != null) {
+                Navigator.of(context).pop(value.first);
+              }
+            },
+            value: [],
+          ),
+        ),
+      ),
     );
+    if (selectedDate != null) {
+      String formattedDate =
+          "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
+      controller.dateOfBirthController.text = formattedDate;
+    }
   }
 }

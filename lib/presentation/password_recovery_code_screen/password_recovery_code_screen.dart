@@ -1,7 +1,7 @@
 import '../../widgets/custom_pin_code_text_field.dart';
 import 'controller/password_recovery_code_controller.dart';
 import 'package:fresh_mandi/core/app_export.dart';
-import 'package:fresh_mandi/widgets/custom_elevated_button.dart';
+// import 'package:fresh_mandi/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
 class PasswordRecoveryCodeScreen extends StatefulWidget {
@@ -37,8 +37,6 @@ class _PasswordRecoveryCodeScreenState
                       style: CustomTextStyles.bodyLargeNunitoSans
                           .copyWith(height: 1.42))),
               SizedBox(height: 15.v),
-              Text("lbl_98_00".tr,
-                  style: CustomTextStyles.titleMediumNunitoSans),
               SizedBox(height: 29.v),
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 81.h),
@@ -46,14 +44,14 @@ class _PasswordRecoveryCodeScreenState
                       context: Get.context!,
                       controller: passwordRecovryController.otpController.value,
                       onChanged: (value) {
-                        // passwordRecovryController.verifyOtp();
+                        passwordRecovryController.verifyOtp(context);
                       }))),
               Spacer(),
-              CustomElevatedButton(
-                  height: 50.v,
-                  width: 201.h,
-                  text: "lbl_send_again".tr,
-                  buttonStyle: CustomButtonStyles.fillRed),
+              // CustomElevatedButton(
+              //     height: 50.v,
+              //     width: 201.h,
+              //     text: "lbl_send_again".tr,
+              //     buttonStyle: CustomButtonStyles.fillRed),
               SizedBox(height: 31.v),
               Opacity(
                   opacity: 0.9,
@@ -63,7 +61,6 @@ class _PasswordRecoveryCodeScreenState
             ])));
   }
 
-  /// Section Widget
   Widget _buildPasswordRecoveryColumn() {
     return Align(
         alignment: Alignment.centerRight,
@@ -90,12 +87,5 @@ class _PasswordRecoveryCodeScreenState
                       width: 91.adaptSize,
                       alignment: Alignment.center))
             ])));
-  }
-
-  /// Navigates to the newPasswordScreen when the action is triggered.
-  onTapDots() {
-    Get.toNamed(
-      AppRoutes.newPasswordScreen,
-    );
   }
 }

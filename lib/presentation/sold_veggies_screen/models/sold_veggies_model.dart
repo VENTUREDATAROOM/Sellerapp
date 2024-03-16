@@ -9,6 +9,6 @@ class SoldVeggiesModel {
         image: ImageConstant.imgCabbage1.obs,
         title: "Cabbage".obs,
         quantity: "qty: 7 quintal".obs,
-        price: "price: ₹8190".obs)
+        price: "price: ₹8190".obs),
   ]);
 }

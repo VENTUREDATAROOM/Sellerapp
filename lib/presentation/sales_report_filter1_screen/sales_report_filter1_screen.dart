@@ -117,7 +117,7 @@ class SalesReportFilter1Screen extends GetWidget<SalesReportFilter1Controller> {
                     width: double.maxFinite,
                     child: CalendarDatePicker2(
                         config: CalendarDatePicker2Config(
-                            calendarType: CalendarDatePicker2Type.single,
+                            calendarType: CalendarDatePicker2Type.range,
                             firstDate: DateTime(DateTime.now().year - 5),
                             lastDate: DateTime(DateTime.now().year + 5),
                             firstDayOfWeek: 0,

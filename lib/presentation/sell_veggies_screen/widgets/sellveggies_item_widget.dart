@@ -1,52 +1,40 @@
-import '../controller/sell_veggies_controller.dart';
-import '../models/sellveggies_item_model.dart';
-import 'package:fresh_mandi/core/app_export.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh_mandi/widgets/base64.dart';
 
-// ignore: must_be_immutable
-class SellveggiesItemWidget extends StatelessWidget {
-  SellveggiesItemWidget(
-    this.sellveggiesItemModelObj, {
-    Key? key,
-  }) : super(
-          key: key,
-        );
+import '../../../core/app_export.dart';
 
-  SellveggiesItemModel sellveggiesItemModelObj;
+class SellVeggiesItemWidget extends StatelessWidget {
+  final dynamic veggie; // Using dynamic as we don't have a specific model type
 
-  var controller = Get.find<SellVeggiesController>();
+  const SellVeggiesItemWidget({Key? key, required this.veggie})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 114.v,
       width: 128.h,
+      decoration: BoxDecoration(
+          color: theme.primaryColor.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(20)),
       child: Stack(
         alignment: Alignment.topLeft,
         children: [
-          Obx(
-            () => CustomImageView(
-              imagePath: sellveggiesItemModelObj.image!.value,
-              height: 114.v,
-              width: 128.h,
-              radius: BorderRadius.circular(
-                24.h,
-              ),
-              alignment: Alignment.center,
+          Align(
+            alignment: Alignment.center,
+            child: Base64Image(
+              base64String: veggie['productImage'],
+              imageHeight: 150,
+              imageWidth: 150,
             ),
           ),
           Align(
-            alignment: Alignment.topLeft,
+            alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.only(
-                left: 8.h,
-                top: 4.v,
-              ),
-              child: Obx(
-                () => Text(
-                  sellveggiesItemModelObj.text!.value,
-                  style: CustomTextStyles.bodyLargeAkayaKanadaka,
-                ),
+              padding: EdgeInsets.only(left: 8.h, top: 4.v, bottom: 5.v),
+              child: Text(
+                veggie['productName'],
+                style: CustomTextStyles.bodyLargeAkayaKanadaka,
               ),
             ),
           ),
@@ -55,3 +43,18 @@ class SellveggiesItemWidget extends StatelessWidget {
     );
   }
 }
+
+
+ // Align(
+          //   alignment: Alignment.bottomRight,
+          //   child: Padding(
+          //     padding: EdgeInsets.only(
+          //       left: 8.h,
+          //       top: 4.v,
+          //     ),
+          //     child: Text(
+          //       veggie['productMasterCode'],
+          //       style: CustomTextStyles.bodyLargeAkayaKanadaka,
+          //     ),
+          //   ),
+          // ),

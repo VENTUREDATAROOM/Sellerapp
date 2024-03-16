@@ -29,12 +29,10 @@ class AppbarTrailingCircleimage extends StatelessWidget {
         padding: margin ?? EdgeInsets.zero,
         child: CustomImageView(
           imagePath: imagePath,
-          height: 14.v,
+          color: theme.primaryColor,
+          height: 16.v,
           width: 16.h,
           fit: BoxFit.contain,
-          radius: BorderRadius.circular(
-            7.h,
-          ),
         ),
       ),
     );

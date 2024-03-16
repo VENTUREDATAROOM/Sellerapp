@@ -45,8 +45,7 @@ final Map<String, String> hiIn = {
   // 08 पासवर्ड रिकवरी — कोड स्क्रीन
   "lbl_98_00": "+98*******00",
   "lbl_send_again": "फिर से भेजें",
-  "msg_enter_4_digits_code":
-      "अपने फ़ोन नंबर पर हमने भेजा हुआ 4-अंकों का कोड दर्ज करें",
+  "msg_enter_4_digits_code": "हमने भेजा हुआ 4-अंकों का कोड दर्ज करें",
 
   // 09 नया पासवर्ड स्क्रीन
   "lbl_repeat_password": "पासवर्ड दोहराएं",
@@ -148,22 +147,6 @@ final Map<String, String> hiIn = {
   "lbl_settings": "सेटिंग्स",
 
   // 25 बिक्री हुई सब्जियाँ स्क्रीन
-  "lbl_price_1275": "मूल्य: ₹1275",
-  "lbl_price_16_800": "मूल्य: ₹16,800",
-  "lbl_price_18_000": "मूल्य: ₹18,000",
-  "lbl_price_25000": "मूल्य: ₹25000",
-  "lbl_price_7_200": "मूल्य: ₹7,200",
-  "lbl_price_8190": "मूल्य: ₹8190",
-  "lbl_price_87_500": "मूल्य: ₹87,500",
-  "lbl_price_91_200": "मूल्य: ₹91,200",
-  "lbl_qty_10_quintal": "मात्रा: 10 क्विंटल",
-  "lbl_qty_12_quintal": "मात्रा: 12 क्विंटल",
-  "lbl_qty_1_quintal": "मात्रा: 1 क्विंटल",
-  "lbl_qty_2_quintal": "मात्रा: 2 क्विंटल",
-  "lbl_qty_2_ton": "मात्रा: 2 टन",
-  "lbl_qty_5_ton": "मात्रा: 5 टन",
-  "lbl_qty_6_quintal": "मात्रा: 6 क्विंटल",
-  "lbl_qty_7_quintal": "मात्रा: 7 क्विंटल",
   "lbl_sold_vegies": "बेची गई सब्जियाँ",
 
   // 26 सब्जियाँ बेचें स्क्रीन
@@ -177,6 +160,7 @@ final Map<String, String> hiIn = {
   "lbl_mandi_name": "मंडी का नाम",
   "lbl_price": "मूल्य",
   "lbl_quality": "गुणवत्ता",
+  "lbl_bank": "खाते का प्रकार",
   "lbl_quantity": "मात्रा",
   "msg_distance_from_mandi": "मंडी से दूरी",
   "msg_upload_pictures": "उत्पाद की छवियों को अपलोड करें",

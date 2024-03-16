@@ -1,3 +1,5 @@
+import 'package:fresh_mandi/core/utils/validation_functions.dart';
+
 import 'controller/pan_kyc_controller.dart';
 import 'package:fresh_mandi/core/app_export.dart';
 import 'package:fresh_mandi/widgets/app_bar/appbar_leading_image.dart';
@@ -181,58 +183,73 @@ class PanKycScreen extends GetWidget<PanKycController> {
                           ])),
                   SizedBox(height: 23.v),
                   Expanded(
-                      child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 24.h, vertical: 19.v),
-                          decoration: AppDecoration.outlineBlack9001.copyWith(
-                              borderRadius: BorderRadiusStyle.circleBorder11),
-                          child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 19.v),
-                                Text("lbl_pan_card2".tr,
-                                    style: CustomTextStyles
-                                        .titleMediumInterPrimary),
-                                SizedBox(height: 7.v),
-                                Container(
-                                    width: 239.h,
-                                    margin: EdgeInsets.only(right: 35.h),
-                                    child: Text("msg_please_enter_your".tr,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: theme.textTheme.labelMedium!
-                                            .copyWith(height: 1.30))),
-                                SizedBox(height: 30.v),
-                                Text("lbl_pan_card_number".tr,
-                                    style: theme.textTheme.labelMedium),
-                                SizedBox(height: 12.v),
-                                Padding(
-                                    padding: EdgeInsets.only(right: 59.h),
-                                    child: CustomTextFormField(
-                                        controller:
-                                            controller.cardNumberController,
-                                        textInputAction: TextInputAction.done)),
-                                SizedBox(height: 79.v),
-                                Align(
+                      child: Form(
+                    key: controller.formKey,
+                    child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 24.h, vertical: 19.v),
+                        decoration: AppDecoration.outlineBlack9001.copyWith(
+                            borderRadius: BorderRadiusStyle.circleBorder11),
+                        child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 19.v),
+                              Text("lbl_pan_card2".tr,
+                                  style:
+                                      CustomTextStyles.titleMediumInterPrimary),
+                              SizedBox(height: 7.v),
+                              Container(
+                                  width: 239.h,
+                                  margin: EdgeInsets.only(right: 35.h),
+                                  child: Text("msg_please_enter_your".tr,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: theme.textTheme.labelMedium!
+                                          .copyWith(height: 1.30))),
+                              SizedBox(height: 30.v),
+                              Text("lbl_pan_card_number".tr,
+                                  style: theme.textTheme.labelMedium),
+                              SizedBox(height: 12.v),
+                              Padding(
+                                  padding: EdgeInsets.only(right: 59.h),
+                                  child: CustomTextFormField(
+                                      validator: (value) {
+                                        if (!isValidPAN(value,
+                                            isRequired: true)) {
+                                          return 'Please enter a valid Pan number';
+                                        }
+                                        return null;
+                                      },
+                                      controller:
+                                          controller.cardNumberController,
+                                      focusNode:
+                                          controller.yourNumberValueFocusNode,
+                                      textInputAction: TextInputAction.done)),
+                              SizedBox(height: 79.v),
+                              Align(
                                   alignment: Alignment.center,
                                   child: Container(
                                     margin:
                                         EdgeInsets.symmetric(horizontal: 7.h),
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 41.h, vertical: 21.v),
-                                    decoration: AppDecoration.outlinePrimary3
-                                        .copyWith(
-                                            borderRadius: BorderRadiusStyle
-                                                .roundedBorder20),
-                                    child: controller.imageFile.isEmpty
-                                        ? Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
+                                    decoration:
+                                        AppDecoration.outlinePrimary3.copyWith(
+                                      borderRadius:
+                                          BorderRadiusStyle.roundedBorder20,
+                                    ),
+                                    child: Obx(
+                                      () => controller.pickedImage.value == null
+                                          ? Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
                                                 SizedBox(height: 6.v),
-                                                Text("msg_upload_your_pan".tr,
-                                                    style: CustomTextStyles
-                                                        .bodySmallPoppinsGray60001),
+                                                Text(
+                                                  "msg_upload_your_pan".tr,
+                                                  style: CustomTextStyles
+                                                      .bodySmallPoppinsGray60001,
+                                                ),
                                                 SizedBox(height: 13.v),
                                                 CustomOutlinedButton(
                                                   width: 106.h,
@@ -242,56 +259,63 @@ class PanKycScreen extends GetWidget<PanKycController> {
                                                         .pickingImage(context);
                                                   },
                                                 )
-                                              ])
-                                        : Container(
-                                            decoration: BoxDecoration(
-                                              color: theme.colorScheme.primary,
-                                              shape: BoxShape.circle,
+                                              ],
+                                            )
+                                          : Container(
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    theme.colorScheme.primary,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              height: 120.adaptSize,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Image.file(
+                                                controller.pickedImage.value!,
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
-                                            height: 120.adaptSize,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: Image.file(
-                                              controller.pickedImage.value!,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                  ),
-                                ),
-                                Spacer(),
-                                CustomElevatedButton(
-                                    height: 33.v,
-                                    text: "lbl_submit".tr,
-                                    margin: EdgeInsets.only(
-                                        left: 10.h, right: 15.h),
-                                    buttonTextStyle: CustomTextStyles
-                                        .titleMediumInterOnErrorContainerMedium,
-                                    onPressed: () {
-                                      onTapSubmit();
-                                    },
-                                    alignment: Alignment.center),
-                                SizedBox(height: 30.v),
-                                Align(
-                                    alignment: Alignment.center,
-                                    child: Container(
-                                        width: 242.h,
-                                        margin: EdgeInsets.only(
-                                            left: 13.h, right: 18.h),
-                                        child: RichText(
-                                            text: TextSpan(children: [
-                                              TextSpan(
-                                                  text: "msg_if_you_are_facing2"
-                                                      .tr,
-                                                  style: CustomTextStyles
-                                                      .bodySmalla54e6c16),
-                                              TextSpan(
-                                                  text: "lbl_whatsapp".tr,
-                                                  style: CustomTextStyles
-                                                      .labelMediumff4e6c16)
-                                            ]),
-                                            textAlign: TextAlign.center)))
-                              ]))),
+                                    ),
+                                  )),
+                              Spacer(),
+                              CustomElevatedButton(
+                                  height: 33.v,
+                                  text: "lbl_submit".tr,
+                                  isDisabled:
+                                      controller.pickedImage.value == null ||
+                                          controller.cardNumberController.text
+                                              .isEmpty,
+                                  margin:
+                                      EdgeInsets.only(left: 10.h, right: 15.h),
+                                  buttonTextStyle: CustomTextStyles
+                                      .titleMediumInterOnErrorContainerMedium,
+                                  onPressed: () {
+                                    onTapSubmit();
+                                  },
+                                  alignment: Alignment.center),
+                              SizedBox(height: 30.v),
+                              Align(
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                      width: 242.h,
+                                      margin: EdgeInsets.only(
+                                          left: 13.h, right: 18.h),
+                                      child: RichText(
+                                          text: TextSpan(children: [
+                                            TextSpan(
+                                                text:
+                                                    "msg_if_you_are_facing2".tr,
+                                                style: CustomTextStyles
+                                                    .bodySmalla54e6c16),
+                                            TextSpan(
+                                                text: "lbl_whatsapp".tr,
+                                                style: CustomTextStyles
+                                                    .labelMediumff4e6c16)
+                                          ]),
+                                          textAlign: TextAlign.center)))
+                            ])),
+                  )),
                   SizedBox(height: 5.v)
                 ]))));
   }
@@ -345,8 +369,8 @@ class PanKycScreen extends GetWidget<PanKycController> {
 
   /// Navigates to the bankKycScreen when the action is triggered.
   onTapSubmit() {
-    Get.toNamed(
-      AppRoutes.bankKycScreen,
-    );
+    if (controller.formKey.currentState!.validate()) {
+      controller.uploadPanCardDetails();
+    }
   }
 }

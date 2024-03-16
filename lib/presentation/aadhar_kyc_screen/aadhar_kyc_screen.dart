@@ -1,3 +1,6 @@
+import 'package:get/get.dart';
+
+import '../../core/utils/validation_functions.dart';
 import 'controller/aadhar_kyc_controller.dart';
 import 'package:fresh_mandi/core/app_export.dart';
 import 'package:fresh_mandi/widgets/app_bar/appbar_leading_image.dart';
@@ -176,103 +179,144 @@ class AadharKycScreen extends GetWidget<AadharKycController> {
                       ]),
                   SizedBox(height: 27.v),
                   Expanded(
-                      child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 24.h, vertical: 19.v),
-                          decoration: AppDecoration.outlineBlack9001.copyWith(
-                              borderRadius: BorderRadiusStyle.circleBorder11),
-                          child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 18.v),
-                                Text("msg_adhaar_card_front".tr,
-                                    style: CustomTextStyles.titleMediumPrimary),
-                                SizedBox(height: 7.v),
-                                Container(
-                                    width: 215.h,
-                                    margin: EdgeInsets.only(right: 59.h),
-                                    child: Text("msg_please_upload_your".tr,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: CustomTextStyles
-                                            .labelMediumRaleway
-                                            .copyWith(height: 1.18))),
-                                SizedBox(height: 32.v),
-                                Text("msg_adhaar_card_number".tr,
-                                    style:
-                                        CustomTextStyles.labelMediumRaleway_1),
-                                SizedBox(height: 11.v),
-                                Padding(
-                                    padding: EdgeInsets.only(right: 59.h),
-                                    child: CustomTextFormField(
-                                        controller:
-                                            controller.cardNumberController,
-                                        textInputAction: TextInputAction.done)),
-                                SizedBox(height: 84.v),
-                                Align(
-                                    alignment: Alignment.center,
-                                    child: Container(
-                                        width: 260.h,
-                                        margin: EdgeInsets.only(
-                                            left: 5.h, right: 10.h),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 31.h, vertical: 21.v),
-                                        decoration: AppDecoration
-                                            .outlinePrimary3
-                                            .copyWith(
-                                                borderRadius: BorderRadiusStyle
-                                                    .roundedBorder20),
-                                        child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(height: 7.v),
-                                              Text("msg_upload_aadhaar_card".tr,
-                                                  style: CustomTextStyles
-                                                      .bodySmallRalewayGray60001),
-                                              SizedBox(height: 15.v),
-                                              CustomOutlinedButton(
-                                                  width: 106.h,
-                                                  text: "lbl_upload".tr,
-                                                  buttonTextStyle: CustomTextStyles
-                                                      .titleSmallRalewayPrimary,
-                                                  alignment: Alignment.center)
-                                            ]))),
-                                Spacer(),
-                                CustomElevatedButton(
-                                    height: 33.v,
-                                    text: "lbl_submit".tr,
-                                    margin: EdgeInsets.only(
-                                        left: 10.h, right: 15.h),
-                                    buttonTextStyle: CustomTextStyles
-                                        .titleMediumOnErrorContainerMedium,
-                                    onPressed: () {
-                                      onTapSubmit();
-                                    },
-                                    alignment: Alignment.center),
-                                SizedBox(height: 31.v),
-                                Align(
-                                    alignment: Alignment.center,
-                                    child: Container(
-                                        width: 255.h,
-                                        margin: EdgeInsets.only(
-                                            left: 7.h, right: 12.h),
-                                        child: RichText(
-                                            text: TextSpan(children: [
-                                              TextSpan(
-                                                  text: "msg_if_you_are_facing2"
-                                                      .tr,
-                                                  style: CustomTextStyles
-                                                      .bodySmallRalewaya54e6c16),
-                                              TextSpan(
-                                                  text: "lbl_whatsapp".tr,
-                                                  style: CustomTextStyles
-                                                      .labelMediumRalewayff4e6c16)
-                                            ]),
-                                            textAlign: TextAlign.center)))
-                              ]))),
+                      child: Form(
+                    key: controller.formKey,
+                    child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 24.h, vertical: 19.v),
+                        decoration: AppDecoration.outlineBlack9001.copyWith(
+                            borderRadius: BorderRadiusStyle.circleBorder11),
+                        child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 18.v),
+                              Text("msg_adhaar_card_front".tr,
+                                  style: CustomTextStyles.titleMediumPrimary),
+                              SizedBox(height: 7.v),
+                              Container(
+                                  width: 215.h,
+                                  margin: EdgeInsets.only(right: 59.h),
+                                  child: Text("msg_please_upload_your".tr,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: CustomTextStyles.labelMediumRaleway
+                                          .copyWith(height: 1.18))),
+                              SizedBox(height: 32.v),
+                              Text("msg_adhaar_card_number".tr,
+                                  style: CustomTextStyles.labelMediumRaleway_1),
+                              SizedBox(height: 11.v),
+                              Padding(
+                                  padding: EdgeInsets.only(right: 59.h),
+                                  child: CustomTextFormField(
+                                      validator: (value) {
+                                        if (!isValidAadharNumber(value,
+                                            isRequired: true)) {
+                                          return 'Please enter a valid Aadhar number';
+                                        }
+                                        return null;
+                                      },
+                                      controller:
+                                          controller.cardNumberController,
+                                      focusNode:
+                                          controller.yourNumberValueFocusNode,
+                                      textInputType: TextInputType.number,
+                                      textInputAction: TextInputAction.done)),
+                              SizedBox(height: 84.v),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                    width: 260.h,
+                                    margin:
+                                        EdgeInsets.only(left: 5.h, right: 10.h),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 31.h, vertical: 21.v),
+                                    decoration: AppDecoration.outlinePrimary3
+                                        .copyWith(
+                                            borderRadius: BorderRadiusStyle
+                                                .roundedBorder20),
+                                    child: Obx(
+                                      () => controller.pickedImage.value == null
+                                          ? Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                  SizedBox(height: 7.v),
+                                                  Text(
+                                                      "msg_upload_aadhaar_card"
+                                                          .tr,
+                                                      style: CustomTextStyles
+                                                          .bodySmallRalewayGray60001),
+                                                  SizedBox(height: 15.v),
+                                                  CustomOutlinedButton(
+                                                    width: 106.h,
+                                                    text: "lbl_upload".tr,
+                                                    buttonTextStyle:
+                                                        CustomTextStyles
+                                                            .titleSmallRalewayPrimary,
+                                                    alignment: Alignment.center,
+                                                    onPressed: () {
+                                                      controller.pickingImage(
+                                                          context);
+                                                    },
+                                                  )
+                                                ])
+                                          : Container(
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    theme.colorScheme.primary,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              height: 120.adaptSize,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Image.file(
+                                                controller.pickedImage.value!,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                    )),
+                              ),
+                              Spacer(),
+                              Obx(() => CustomElevatedButton(
+                                  height: 33.v,
+                                  text: "lbl_submit".tr,
+                                  margin:
+                                      EdgeInsets.only(left: 10.h, right: 15.h),
+                                  buttonTextStyle: CustomTextStyles
+                                      .titleMediumOnErrorContainerMedium,
+                                  isDisabled:
+                                      controller.pickedImage.value == null ||
+                                          controller.cardNumberController.text
+                                              .isEmpty,
+                                  onPressed: () {
+                                    onTapSubmit();
+                                  },
+                                  alignment: Alignment.center)),
+                              SizedBox(height: 31.v),
+                              Align(
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                      width: 255.h,
+                                      margin: EdgeInsets.only(
+                                          left: 7.h, right: 12.h),
+                                      child: RichText(
+                                          text: TextSpan(children: [
+                                            TextSpan(
+                                                text:
+                                                    "msg_if_you_are_facing2".tr,
+                                                style: CustomTextStyles
+                                                    .bodySmallRalewaya54e6c16),
+                                            TextSpan(
+                                                text: "lbl_whatsapp".tr,
+                                                style: CustomTextStyles
+                                                    .labelMediumRalewayff4e6c16)
+                                          ]),
+                                          textAlign: TextAlign.center)))
+                            ])),
+                  )),
                   SizedBox(height: 5.v)
                 ]))));
   }
@@ -292,33 +336,6 @@ class AadharKycScreen extends GetWidget<AadharKycController> {
         title: AppbarSubtitleOne(text: "lbl_kyc".tr.toUpperCase()));
   }
 
-  /// Common widget
-  Widget _buildFrame({
-    required String div,
-    required String profilePic,
-  }) {
-    return Column(children: [
-      Container(
-          width: 32.adaptSize,
-          padding: EdgeInsets.symmetric(horizontal: 10.h, vertical: 5.v),
-          decoration: AppDecoration.outlinePrimary2
-              .copyWith(borderRadius: BorderRadiusStyle.circleBorder16),
-          child: Text(div,
-              style: CustomTextStyles.bodyLargeInterPrimary.copyWith(
-                  color: theme.colorScheme.primary.withOpacity(0.65)))),
-      SizedBox(height: 4.v),
-      SizedBox(
-          width: 31.h,
-          child: Text(profilePic,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: CustomTextStyles.bodySmallPrimary_1.copyWith(
-                  color: theme.colorScheme.primary.withOpacity(0.54),
-                  height: 1.20)))
-    ]);
-  }
-
   /// Navigates to the previous screen.
   onTapArrowLeft() {
     Get.back();
@@ -326,8 +343,10 @@ class AadharKycScreen extends GetWidget<AadharKycController> {
 
   /// Navigates to the aadharUploadKycScreen when the action is triggered.
   onTapSubmit() {
-    Get.toNamed(
-      AppRoutes.aadharUploadKycScreen,
-    );
+    if (controller.formKey.currentState!.validate()) {
+      Get.toNamed(
+        AppRoutes.aadharUploadKycScreen,
+      );
+    }
   }
 }

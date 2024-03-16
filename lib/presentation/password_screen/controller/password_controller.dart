@@ -7,10 +7,6 @@ import '../../../widgets/constants.dart';
 import '../../../widgets/shared_preference.dart';
 import '../../../widgets/utils.dart';
 
-/// A controller class for the PasswordScreen.
-///
-/// This class manages the state of the PasswordScreen, including the
-/// current passwordModelObj
 class PasswordController extends GetxController with CodeAutoFill {
   Rx<TextEditingController> otpController = TextEditingController().obs;
   RxBool loading = false.obs;
@@ -34,7 +30,7 @@ class PasswordController extends GetxController with CodeAutoFill {
     listenForCode();
   }
 
-  Future<void> verifyOtp() async {
+  Future<void> verifyOtp(BuildContext context) async {
     loading.value = true;
     String mobile = PreferenceUtils.getString(AppConstants.userId);
     String password = PreferenceUtils.getString(AppConstants.password);
@@ -44,27 +40,44 @@ class PasswordController extends GetxController with CodeAutoFill {
       "otpgen": otpController.value.text,
       "name": "string",
       "baseImg": "string",
-      "contentType": "string"
+      "contentType": "string",
+      "userCode": "string",
     };
-    var respData = await _api.verifyOtpApi(data);
-    print("Verify Otp response" + respData.toString());
-    loading.value = false;
-    Logger();
-    print("status of response = ${respData[AppConstants.status]}");
-    if (respData[AppConstants.status] == 200) {
-      OneContext().hideCurrentSnackBar();
-      OneContext().showSnackBar(
-          builder: (context) => ShowSnackBar()
-              .customBar("Welcome Back!", context!, isSuccessPopup: true));
-      PreferenceUtils.setString(
-          AppConstants.token, respData[AppConstants.requestToken]);
-      Get.offAndToNamed(AppRoutes.aadharKycScreen);
-    } else {
-      OneContext().hideCurrentSnackBar();
+    try {
+      var respData = await _api.verifyOtpApi(data);
+      print("Verify Otp response" + respData.toString());
+
+      Logger();
+      print("status of response = ${respData[AppConstants.status]}");
+      if (respData[AppConstants.status] == 200) {
+        OneContext().hideCurrentSnackBar();
+        OneContext().showSnackBar(
+            builder: (context) => ShowSnackBar()
+                .customBar("Welcome Back!", context!, isSuccessPopup: true));
+        PreferenceUtils.setString(AppConstants.token,
+            respData['response'][AppConstants.requestToken]);
+        PreferenceUtils.setString(
+            AppConstants.userCode, respData['response']['userCode']);
+
+        Get.offAndToNamed(AppRoutes.dashboardScreen); //DashboardPage
+      } else {
+        OneContext().hideCurrentSnackBar();
+        OneContext().showSnackBar(
+            builder: (context) => ShowSnackBar().customBar(
+                "Otp Doesn't Match, Please input valid Otp", context!));
+        // Utils.snackBar('Login Error', 'User Name And Password Did Not Match');
+      }
+    } catch (e) {
+      print('An error occurred: $e');
       OneContext().showSnackBar(
           builder: (context) => ShowSnackBar().customBar(
-              "Otp Doesn't Match, Please input valid Otp", context!));
-      // Utils.snackBar('Login Error', 'User Name And Password Did Not Match');
+              "Ooops!! Something Went Wrong, Please try after sometime",
+              context!,
+              isSuccessPopup: false));
+    } finally {
+      loading.value = false;
     }
   }
+
+
 }

@@ -9,4 +9,5 @@ class AppConstants {
   static const String name = "Name";
   static const String email = "Email";
   static const String profileImage = "ImageProfile";
+  static const String userCode = "userCode";
 }

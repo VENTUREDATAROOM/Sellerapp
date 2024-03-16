@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:fresh_mandi/core/app_export.dart';
+import 'package:fresh_mandi/data/apiClient/app_url.dart';
 import 'package:fresh_mandi/presentation/pan_kyc_screen/models/pan_kyc_model.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh_mandi/widgets/constants.dart';
+import 'package:fresh_mandi/widgets/shared_preference.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -9,10 +12,10 @@ import '../../../widgets/utils.dart';
 
 class PanKycController extends GetxController {
   TextEditingController cardNumberController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final FocusNode yourNumberValueFocusNode = FocusNode();
   Rx<PanKycModel> panKycModelObj = PanKycModel().obs;
   RxBool loading = false.obs;
-  Rx<bool> isShowPassword = true.obs;
-
   final ImagePicker imagePicker = ImagePicker();
   final pickedImage = Rx<File?>(null);
   String imageFile = "";
@@ -69,11 +72,16 @@ class PanKycController extends GetxController {
     );
   }
 
+   String token = PreferenceUtils.getString(AppConstants.token);
   // Method to upload PAN card details and image
   Future<void> uploadPanCardDetails() async {
-    var url = Uri.parse('YOUR_API_ENDPOINT_HERE');
+    var url = Uri.parse(AppUrl.pancardUpload);
     var request = http.MultipartRequest('POST', url);
-
+    request.headers.addAll({
+      'Content-Type': 'multipart/form-data',
+      "accept": "application/json",
+      "Authorization": "Bearer $token",
+    });
     // Add text fields
     request.fields['pancardNumber'] = cardNumberController.text;
     request.fields['basePan'] = "";
@@ -89,6 +97,9 @@ class PanKycController extends GetxController {
                 "Pancard Uploaded Sucessfully", context!,
                 isSuccessPopup: true));
         print('Upload successful');
+        Get.toNamed(
+          AppRoutes.bankKycScreen,
+        );
       } else {
         print('Upload failed with status: ${response.statusCode}');
         OneContext().showSnackBar(

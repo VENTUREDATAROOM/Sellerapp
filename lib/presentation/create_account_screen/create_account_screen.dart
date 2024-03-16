@@ -98,38 +98,38 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             Align(
               alignment: Alignment.bottomLeft,
               child: Container(
-                height: 80,
-                width: 80,
-                // margin: EdgeInsets.only(left: 30.h),
-                child: createAccountController.imageFile.isEmpty
-                    ? CustomImageView(
-                        imagePath: ImageConstant.imgCameraIcon,
-                        color: theme.colorScheme.primary,
-                        height: 120.adaptSize,
-                        width: 120.adaptSize,
-                        onTap: () {
-                          createAccountController.pickImage();
-                        },
-                      )
-                    : Container(
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          shape: BoxShape.circle,
-                        ),
-                        height: 120.adaptSize,
-                        width: 120.adaptSize,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              60.0), 
-                          child: Image.file(
-                            createAccountController.pickedImage.value!,
+                  height: 80,
+                  width: 80,
+                  // margin: EdgeInsets.only(left: 30.h),
+                  child: Obx(
+                    () => createAccountController.pickedImage.value == null
+                        ? CustomImageView(
+                            imagePath: ImageConstant.imgCameraIcon,
+                            color: theme.colorScheme.primary,
                             height: 120.adaptSize,
                             width: 120.adaptSize,
-                            fit: BoxFit.cover,
+                            onTap: () {
+                              createAccountController.pickImage();
+                            },
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary,
+                              shape: BoxShape.circle,
+                            ),
+                            height: 120.adaptSize,
+                            width: 120.adaptSize,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(60.0),
+                              child: Image.file(
+                                createAccountController.pickedImage.value!,
+                                height: 120.adaptSize,
+                                width: 120.adaptSize,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-              ),
+                  )),
             ),
           ],
         ),
@@ -231,6 +231,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     return CustomElevatedButton(
         text: "lbl_done".tr,
         margin: EdgeInsets.symmetric(horizontal: 20.h),
+        loading: createAccountController.loading.value,
+        isDisabled:
+            createAccountController.emailController.value.text.isEmpty ||
+                createAccountController.nameController.value.text.isEmpty ||
+                createAccountController.passwordController.value.text.isEmpty ||
+                createAccountController
+                    .yourNumberValueController.value.text.isEmpty ||
+                createAccountController.pickedImage.value == null,
         onPressed: () {
           onTapDoneButton();
         });
