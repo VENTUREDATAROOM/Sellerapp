@@ -74,10 +74,11 @@ class LoginController extends GetxController {
             AppConstants.profileImage, decodedResponse['result']['baseImg']);
         PreferenceUtils.setString(
             AppConstants.name, decodedResponse['result']['name']);
-           
+
         // PreferenceUtils.setString(
         //     AppConstants.token, respData[AppConstants.requestToken]);
-        Get.offAndToNamed(AppRoutes.passwordScreen);
+        String passwordString = "Login";
+        Get.offAndToNamed(AppRoutes.passwordScreen, arguments: passwordString);
       } else {
         OneContext().hideCurrentSnackBar();
         OneContext().showSnackBar(

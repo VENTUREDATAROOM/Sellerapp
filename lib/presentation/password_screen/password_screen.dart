@@ -15,6 +15,13 @@ class PasswordScreen extends StatefulWidget {
 class _PasswordScreenState extends State<PasswordScreen> {
   PasswordController passwordController = Get.find();
 
+  final String passwordString = Get.arguments;
+  @override
+  void initState() {
+    super.initState();
+    passwordController.passwordString = passwordString;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

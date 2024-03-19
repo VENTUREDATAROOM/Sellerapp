@@ -173,9 +173,9 @@ class _ActivityPageScreenState extends State<ActivityPageScreen> {
 
   /// Navigates to the settingScreen when the action is triggered.
   onTapMegaphone() {
-    Get.toNamed(
-      AppRoutes.settingScreen,
-    );
+    // Get.toNamed(
+    //   AppRoutes.settingScreen,
+    // );
   }
 
   /// Navigates to the sellVeggiesScreen when the action is triggered.

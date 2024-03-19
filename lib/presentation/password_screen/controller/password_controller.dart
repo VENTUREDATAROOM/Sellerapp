@@ -15,7 +15,7 @@ class PasswordController extends GetxController with CodeAutoFill {
   String profileImage = "";
   String profileName = "";
   String mobileNumber = "";
-
+  String passwordString = "";
   @override
   void codeUpdated() {
     otpController.value.text = code ?? '';
@@ -59,7 +59,9 @@ class PasswordController extends GetxController with CodeAutoFill {
         PreferenceUtils.setString(
             AppConstants.userCode, respData['response']['userCode']);
 
-        Get.offAndToNamed(AppRoutes.dashboardScreen); //DashboardPage
+        (passwordString == "Register")
+            ? Get.offAndToNamed(AppRoutes.aadharKycScreen)
+            : Get.offAndToNamed(AppRoutes.dashboardScreen); //DashboardPage
       } else {
         OneContext().hideCurrentSnackBar();
         OneContext().showSnackBar(
@@ -78,6 +80,4 @@ class PasswordController extends GetxController with CodeAutoFill {
       loading.value = false;
     }
   }
-
-
 }

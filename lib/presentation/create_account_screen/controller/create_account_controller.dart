@@ -103,7 +103,8 @@ class CreateAccountController extends GetxController {
               AppConstants.email, emailController.value.text.toString());
           PreferenceUtils.setString(
               AppConstants.profileImage, data['result']['baseImg']);
-          Get.toNamed(AppRoutes.passwordScreen);
+          String passwordString = "Register";
+          Get.toNamed(AppRoutes.passwordScreen, arguments: passwordString);
         }
       } else {
         // Handle error response
